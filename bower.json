@@ -1,0 +1,31 @@
+{
+    "name": "mp-calendar",
+    "description": "A simple calendar web components",
+    "version": "0.1.0",
+    "homepage": "http://minas.pachnis.com",
+    "authors": [
+        "Minas Pachnis <minas@bugeffect.com>"
+    ],
+    "keywords": [
+        "calendar",
+        "datepicker",
+        "polymer",
+        "web-components"
+    ],
+    "license": "MIT",
+    "main": "mp-calendar.html",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:mpachnis/mp-calendar.git"
+    },
+    "dependencies": {
+        "polymer": "Polymer/polymer#^1.6.0",
+        "fa-awesome": "^2.0.1"
+    },
+    "devDependencies": {
+        "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+        "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+        "web-component-tester": "^4.0.0",
+        "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+    }
+}

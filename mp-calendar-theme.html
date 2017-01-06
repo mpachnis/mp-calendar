@@ -1,0 +1,285 @@
+<dom-module id="mp-calendar-theme">
+    <style>
+        :root {
+            font-family: "Helvetica Neue", Helvetica;
+            display: block;
+            box-sizing: border-box;
+
+            --white-color: #fff;
+
+            --mp-cld-header-bg: #f7f7f7;
+            --mp-cld-header-color: #ff4a4f;
+
+            --mp-cld-label-color: #757575;
+
+            --mp-cld-prev-days-bg: #f1f1f1;
+            --mp-cld-prev-days-color: #a0a0a0;
+
+            --light-grey-color: #797979;
+            --highlighted-day-color: #90dca7;
+            --selected-date-color: #29a54f;
+
+            --layout: {
+                display: flex;
+                display: -ms-flexbox;
+                display: -webkit-flex
+            };
+
+            --layout-horizontal: {
+                @apply(--layout);
+
+                flex-direction: row;
+                -ms-flex-direction: row;
+                -webkit-flex-direction: row
+            };
+
+            --layout-justified: {
+                justify-content: space-between;
+                -ms-flex-pack: justify;
+                -webkit-justify-content: space-between
+            };
+
+            --no-selection: {
+                user-select: none;
+                -ms-user-select: none;
+                -moz-user-select: none;
+                -khtml-user-select: none;
+                -webkit-user-select: none;
+                -webkit-touch-callout: none
+            };
+        }
+
+        #content {
+            width: 100%;
+            margin: 20px 0;
+            background: var(--white-color);
+            border-radius: 4px
+        }
+
+        #header {
+            @apply(--no-selection);
+            margin: 0;
+            height: 45px;
+            line-height: 45px;
+            font-size: 17px;
+            font-weight: bold
+        }
+
+        #header > div {
+            @apply(--layout);
+            @apply(--layout-justified);
+            width: 100%;
+            color: var(--mp-cld-header-color);
+            background: var(--mp-cld-header-bg)
+        }
+
+        ::content .mp-cld-labels {
+            min-width: 37.5px;
+            padding: 0;
+
+            @apply(--layout);
+            @apply(--week-layout);
+
+            @apply(--mp-labels);
+        }
+
+        .mp-cld-main { width: 100%; margin: 0; border: 1px solid #f7f7f7 }
+
+        .calendar-icon-left,
+        .calendar-icon-right { width: 15px; vertical-align: middle }
+
+        .calendar-icon-left { margin: 0 0 0 5px }
+        .calendar-icon-right { margin: 0 5px 0 0 }
+
+        .calendar-icon-todayDate {
+            width: 15px;
+            vertical-align: sub
+        }
+
+            .calendar-icon-left:hover,
+            .calendar-icon-right:hover,
+            .calendar-icon-todayDate:hover { cursor: pointer }
+
+            .calendar-icon-left svg,
+            .calendar-icon-right svg,
+            .calendar-icon-todayDate svg { fill: var(--light-grey-color); transition: all .3s ease-in-out }
+
+                .calendar-icon-left:hover svg,
+                .calendar-icon-right:hover svg,
+                .calendar-icon-todayDate:hover svg { opacity: .8 }
+
+        .mp-cld-nav {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            margin-top: 2px
+        }
+
+        .mp-cld-nav:hover { cursor: pointer }
+
+        .mp-cld-rwd { float: left }
+
+        .mp-cld-fwd { float: right }
+
+        .mp-cld-labels, .mp-cld-days { margin: 0; padding-left: 0 }
+
+        ::content .mp-cld-label {
+            font-size: 16px;
+            color: var(--mp-cld-label-color);
+            line-height: 40px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+            .mp-cld-label:last-child { margin-right: 0 }
+
+        ::content .mp-cld-label, ::content .mp-cld-day {
+            box-sizing: border-box;
+            display: inline-block;
+            width: 14.28%;
+            text-align: center
+        }
+
+        ::content .mp-cld-day {
+            margin: 0;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #f7f7f7;
+            cursor: pointer;
+            z-index: 5;
+            transition: all .3s ease-in-out
+        }
+
+        ::content .mp-cld-day.prevMonth,
+        ::content .mp-cld-day.currMonth,
+        ::content .mp-cld-day.nextMonth {
+            position: relative;
+            z-index: 10;
+            transition: background-color .5s ease-in-out
+        }
+
+        ::content .mp-cld-day.prevMonth {
+            background: var(--mp-cld-prev-days-bg);
+            color: var(--mp-cld-prev-days-color);
+        }
+        ::content .mp-cld-day.currMonth {
+            background: var(--white-color)
+        }
+
+        ::content .mp-cld-day.nextMonth {
+            background: var(--mp-cld-prev-days-bg)
+        }
+
+            ::content .mp-cld-day.prevMonth span, .mp-cld-day.currMonth span,
+            ::content .mp-cld-day.nextMonth span {
+                position: relative;
+                z-index: 10
+            }
+
+        ::content .mp-cld-day.prevMonth { opacity: .7 }
+
+            ::content .mp-cld-day.prevMonth:hover,
+            ::content .mp-cld-day.currMonth:hover,
+            ::content .mp-cld-day.nextMonth:hover {
+                cursor: pointer
+            }
+
+                ::content .mp-cld-day.prevMonth::before,
+                ::content .mp-cld-day.currMonth::before,
+                ::content .mp-cld-day.nextMonth::before {
+                    content: '';
+                    width: 5px;
+                    height: 5px;
+                    background: transparent;
+                    margin-left: -2.5px;
+                    position: absolute;
+                    top: 30px;
+                    left: 50%;
+                    z-index: 0;
+                    border-radius: 50%;
+                    transition: all .5s ease-in-out
+                }
+
+                ::content .mp-cld-day.prevMonth:hover::before,
+                ::content .mp-cld-day.currMonth:hover::before,
+                ::content .mp-cld-day.nextMonth:hover::before {
+                    background: var(--mp-cld-header-color)
+                }
+
+         ::content .mp-cld-day.today {
+            border-bottom: 1px solid var(--mp-cld-header-color);
+            position: relative;
+            z-index: 5
+        }
+
+        ::content .mp-cld-day.currMonth.selected,
+        ::content .mp-cld-day.nextMonth.selected {
+            background: var(--mp-cld-header-color);
+            color: var(--white-color);
+            border: 1px solid #f1393e;
+            position: relative;
+            cursor: pointer;
+            z-index: 5;
+            transition: all .4s ease-in-out;
+            /*box-shadow: inset 0px 0px 10px -2px rgba(0, 0, 0, .55)*/
+        }
+
+            ::content .mp-cld-day.currMonth.selected:hover {
+                opacity: .8
+            }
+
+        ::content .mp-cld-day.prevMonth.disabled {
+            pointer-events: none;
+        }
+
+            ::content .mp-cld-day.prevMonth.disabled:hover {
+                background: var(--mp-cld-prev-days-bg);
+                border-bottom: none;
+                cursor: default
+            }
+
+                ::content .mp-cld-day.disabled:hover::before {
+                    background: none
+                }
+
+        .mp-cld-number {
+            position: relative;
+            margin: 0;
+            padding: 10px
+        }
+
+        .mp-cld-title {
+            position: absolute;
+            z-index: 5;
+            display: none;
+            top: 35px;
+            left: 0;
+            padding: 5px 10px;
+            background: var(--white-color);
+            white-space: nowrap;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 12px
+        }
+
+        .mp-cld-number:hover .mp-cld-title { display: block }
+
+        .mp-cld-title::before {
+            content: '';
+            position: absolute;
+            top: -7.5px; left: 10px;
+            width: 0;
+            height: 0;
+            border-left: 7.5px solid transparent;
+            border-right: 7.5px solid transparent;
+            border-bottom: 7.5px solid #ccc
+        }
+
+        .mp-cld-number.eventday { font-weight: bold; color: #0080FF }
+
+            .mp-cld-number.eventday:hover { cursor: pointer; background: #eee }
+
+            .today .mp-cld-number.eventday:hover { background: #005eff }
+    </style>
+</dom-module>

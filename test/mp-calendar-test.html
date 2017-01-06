@@ -1,0 +1,56 @@
+<!doctype html>
+
+<html>
+<head>
+    <title>rollout-calc test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../mp-calendar.html">
+</head>
+<body>
+
+    <test-fixture id="mpCalendar">
+        <template>
+            <mp-calendar></mp-calendar>
+        </template>
+    </test-fixture>
+
+    <script>
+    suite('mp-calendar', function() {
+        var datePicker;
+
+        setup(function() {
+            datePicker = fixture('mpCalendar');
+        });
+
+        test('instantiating the element works', function() {
+            assert.equal(datePicker.is, 'mp-calendar');
+        });
+
+        test('set disableDays attribute to false, then to true', function() {
+            datePicker.disableDays = true
+            assert.equal(datePicker.disableDays, true);
+
+            datePicker.disableDays = false
+            assert.equal(datePicker.disableDays, false);
+        });
+
+        test('check dayLabels', function() {
+            expect(datePicker.dayLabels).to.be.an('array');
+        });
+
+        test('check monthLabels', function() {
+            expect(datePicker.monthLabels).to.be.an('array');
+        });
+
+        test('first day of week is Sunday', function() {
+            assert.equal(datePicker.firstDayOfWeek, 0);
+        });
+
+    });
+    </script>
+</body>
+</html>
