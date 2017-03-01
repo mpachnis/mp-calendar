@@ -16,7 +16,7 @@
     "main": "mp-calendar.html",
     "repository": {
         "type": "git",
-        "url": "git@github.com:mpachnis/mp-calendar.git"
+        "url": "https://github.com/mpachnis/mp-calendar.git"
     },
     "dependencies": {
         "polymer": "Polymer/polymer#^1.6.0",
