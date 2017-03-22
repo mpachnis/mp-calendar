@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/mpachnis/mp-calendar.svg?branch=master)](https://travis-ci.org/mpachnis/mp-calendar) [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/mpachnis/mp-calendar)
 
 
-## &lt;mp-calendar&gt;
+### &lt;mp-calendar&gt;
 
 
 ## Demo
