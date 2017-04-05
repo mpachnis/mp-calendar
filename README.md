@@ -9,15 +9,27 @@
 [mp-calendar docs & demo](http://minas.pachnis.com/projects/mp-calendar/bower_components/mp-calendar/)
 
 
-### Install
+### Install the component using [Bower](http://bower.io/):
 
 ```bash
-# via bower
-$ bower install mp-calendar
+$ bower install --save mp-calendar
 ```
 
 ### Usage
 
+1. Import Web Components' polyfill:
+
+```html
+<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+```
+
+2. Import Custom Element:
+
+```html
+<link rel="import" href="bower_components/mp-calendar/mp-calendar.html">
+```
+
+3. Start using it!
 <!--
 ```
 <custom-element-demo>
@@ -29,8 +41,6 @@ $ bower install mp-calendar
 </custom-element-demo>
 ```
 -->
-
-add the calendar element
 
 ```html
 
