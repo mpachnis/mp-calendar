@@ -9,13 +9,13 @@
 [mp-calendar docs & demo](http://minas.pachnis.com/projects/mp-calendar/bower_components/mp-calendar/)
 
 
-### Install the component using [Bower](http://bower.io/):
+## Install the component using [Bower](http://bower.io/):
 
 ```bash
 $ bower install --save mp-calendar
 ```
 
-### Usage
+## Usage
 
 1. Import Web Components' polyfill:
 
@@ -51,6 +51,6 @@ $ bower install --save mp-calendar
 
 ```
 
-### License
+## License
 
 MIT License
