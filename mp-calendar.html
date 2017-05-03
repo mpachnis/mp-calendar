@@ -14,9 +14,9 @@
 -->
 
 <dom-module id="mp-calendar">
-    <style is="custom-style" include="mp-calendar-theme"></style>
-
     <template>
+        <style is="custom-style" include="mp-calendar-theme"></style>
+
         <div id="content">
             <div id="header">
                 <div class="month-display">
@@ -238,7 +238,7 @@
                 this.currentMonth = this.monthLabels[this.showDate.month];
 
                 if (oldDate !== undefined) {
-                    if (this.showDate.month !== oldDate.month) {
+                    if ((this.showDate.month + 1) !== oldDate.month) {
                         this._makeCalendar(this.showDate.year, this.showDate.month);
                     }
                 }
@@ -268,6 +268,7 @@
                     year: today.getFullYear()
                 }
 
+                this.fire('dateSelected', this.date);
                 this._makeCalendar(this.showDate.year, this.showDate.month);
             },
 
@@ -298,10 +299,10 @@
 
                     label.className += "mp-cld-label";
                     label.innerHTML = labelsList[dayName];
-                    labels.appendChild(label);
+                    Polymer.dom(labels).appendChild(label);
                 }
 
-                mainSection.appendChild(labels);
+                Polymer.dom(mainSection).appendChild(labels);
                 calendarElem.appendChild(mainSection);
 
                 // fix the year and the month
@@ -380,10 +381,10 @@
                         var number = self._dayNumber(dayOfNextMonth++, nextMonth + 1, nextYear, day);
                     }
 
-                    days.appendChild(week);
-                    week.appendChild(day);
+                    Polymer.dom(days).appendChild(week);
+                    Polymer.dom(week).appendChild(day);
                 }
-                mainSection.appendChild(days);
+                Polymer.dom(mainSection).appendChild(days);
             },
 
             // get days number of each month

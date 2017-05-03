@@ -6,7 +6,7 @@
 
 ## Demo
 
-[mp-calendar docs & demo](http://minas.pachnis.com/projects/mp-calendar/bower_components/mp-calendar/)
+[mp-calendar docs & demo](https://www.webcomponents.org/element/mpachnis/mp-calendar)
 
 
 ## Install the component using [Bower](http://bower.io/):
