@@ -1,7 +1,7 @@
 {
     "name": "mp-calendar",
     "description": "A simple calendar web components",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "homepage": "http://minas.pachnis.com",
     "authors": [
         "Minas Pachnis <minas@bugeffect.com>"

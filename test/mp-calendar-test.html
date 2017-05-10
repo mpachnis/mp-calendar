@@ -30,12 +30,12 @@
             assert.equal(datePicker.is, 'mp-calendar');
         });
 
-        test('set disableDays attribute to false, then to true', function() {
-            datePicker.disableDays = true
-            assert.equal(datePicker.disableDays, true);
+        test('set disablePrevDays attribute to false, then to true', function() {
+            datePicker.disablePrevDays = true
+            assert.equal(datePicker.disablePrevDays, true);
 
-            datePicker.disableDays = false
-            assert.equal(datePicker.disableDays, false);
+            datePicker.disablePrevDays = false
+            assert.equal(datePicker.disablePrevDays, false);
         });
 
         test('check dayLabels', function() {
@@ -50,6 +50,23 @@
             assert.equal(datePicker.firstDayOfWeek, 0);
         });
 
+        test('5th, 10th and 29th days are disabled ', function() {
+            datePicker.disabledDates = [5, 10, 29];
+            assert.equal(datePicker.disabledDates[0], 5);
+            assert.equal(datePicker.disabledDates[1], 10);
+            assert.equal(datePicker.disabledDates[2], 29);
+        });
+
+        test('3rd week is disabled ', function() {
+            datePicker.disabledWeeks = [3];
+            assert.equal(datePicker.disabledWeeks, 3);
+        });
+
+        test('Monday and Thursday are disabled ', function() {
+            datePicker.disabledDays = ["Monday", "Thursday"];
+            assert.equal(datePicker.disabledDays[0], "Monday");
+            assert.equal(datePicker.disabledDays[1], "Thursday");
+        });
     });
     </script>
 </body>

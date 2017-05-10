@@ -46,7 +46,10 @@ $ bower install --save mp-calendar
 
 <mp-calendar day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]'
              disable-prev-days
-             show-days-in-month=42>
+             show-days-in-month=42
+             disabled-dates="[8, 17, 29]"
+             disabled-days='["Tu"]'
+             disabled-weeks="[5]">
 </mp-calendar>
 
 ```
