@@ -4,11 +4,17 @@
 
 <!--
 
-    `mp-calendar` is a simple Polymer element
+    `mp-calendar` is a simple Polymer element providing calendar date functionality.
 
     ### Example
 
-        <mp-calendar day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]'></mp-calendar>
+        <mp-calendar day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]'
+                     disable-prev-days
+                     show-days-in-month=42
+                     disabled-dates="[8, 17, 29]"
+                     disabled-weeks="[5]"
+                     disabled-days='["Tu"]'>
+        </mp-calendar>
 
     @demo demo/index.html
 -->
@@ -45,26 +51,34 @@
 
             properties: {
 
-                // Disable previous month days
+                /**
+                * Disable previous month days
+                */
                 disablePrevDays: {
                     type: Boolean,
                     value: false
                 },
 
-                // How many day will be visible on each month, including previous and next month days
+                /**
+                * How many day will be visible on each month, including previous and next month days
+                */
                 showDaysInMonth: {
                     type: Number,
                     value: 35
                 },
 
-                // selected day, format set to 'YYYY-MM-DD'
+                /**
+                * selected day, format set to 'YYYY-MM-DD'
+                */
                 chosen: {
                     type: Object,
                     reflectToAttribute: true,
                     observer: "_handlerChosen"
                 },
 
-                // Set the first day of the week: Sunday is 0, Monday is 1, etc.
+                /**
+                * Set the first day of the week: Sunday is 0, Monday is 1, etc.
+                */
                 firstDayOfWeek: {
                     type: Number,
                     value: 0
@@ -90,7 +104,9 @@
                     }
                 },
 
-                // Internal property that holds the current month and year displayed.
+                /**
+                * Internal property that holds the current month and year displayed.
+                */
                 showDate: {
                     type: Object,
                     value: function() {
@@ -119,6 +135,45 @@
                     },
                     observer: '_dateChanged'
                 },
+
+                /**
+                * Disable week days. Set the disabled dates.
+                * ex. disabled-dates="[4, 10, 12, 19, 30]".
+                */
+                disabledDates: {
+                    type: Array,
+                    value: []
+                },
+
+                /**
+                * Disable week days. Set the disabled days. This will read the days from dayLabels. If you use custom dayLabels use the same values here.
+                * ex. if dayLabels default then disabled-days='["Monday", "Thursday"]'.
+                * if dayLabels custom then => day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]' disabled-days='["Mo", "Th"]'.
+                */
+                disabledDays: {
+                    type: Object,
+                    value: function() {
+                        return [];
+                    }
+                },
+
+                /**
+                * Disable weeks, starting from 0 to 4 for default. If showDaysInMonth = 42 then total weeks = 5
+                * ex. disabled-weeks="[3]". This will disable the 3th week.
+                */
+                disabledWeeks: {
+                    type: Array,
+                    value: []
+                },
+
+                /**
+                * In which month, days or weeks should be disabled. If not set the disabledDates & disabledWeeks will disabled for all months.
+                * ex. disabled-in-months="[5, 6]". The disabledDates & disabledWeeks will effective on May & June
+                */
+                disabledInMonths: {
+                    type: Array,
+                    value: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                }
             },
 
             /**
@@ -337,9 +392,9 @@
                  // define default day variables
                 var dayN = 1;
                 var dayOfNextMonth = 1;
-
                 var days = document.createElement('div');
                 days.className += "mp-cld-days";
+
 
                 for (var i = 0; i < self.showDaysInMonth; i++) {
                     var day = document.createElement('span');
@@ -348,6 +403,19 @@
                         var week = document.createElement('div');
                         week.className += "mp-cld-week";
                         week.setAttribute("week", i / 7);
+
+                        // check for disabled weeks
+                        if (this.disabledWeeks != "" || this.disabledInMonths != "") {
+                            this.disabledInMonths.forEach(function(disMonth) {
+                                if (disMonth == month + 1) {
+                                    self.disabledWeeks.forEach(function(disWeek) {
+                                        if (disWeek == i / 7) {
+                                            week.className += " disabledWeek";
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     }
 
                     if (i < (dayOfMonthStart - self.firstDayOfWeek)) {
@@ -370,12 +438,54 @@
                         if ((dayN - 1) == thisDay && month  == thisMonth - 1 && thisYear == year) {
                             day.className += " today";
                         }
+
                         // If selected
                         if ((dayN - 1) == this.date.day && month == this.date.month - 1 && year == this.date.year) {
                             day.className += " selected";
                         }
-                    }
 
+                        // check for disabled days
+                        if (this.disabledDays != "" || this.disabledInMonths != "") {
+                            this.disabledInMonths.forEach(function(disMonth) {
+                                if (disMonth == month + 1) {
+                                    self.disabledDays.forEach(function(disDay, i) {
+                                        self.dayLabels.forEach(function(labDay, d) {
+                                            if (disDay === labDay) {
+                                                var date = new Date();
+                                                date.setDate(d);
+                                                date.setMonth(month);
+
+                                                if (date.getFullYear() != year) {
+                                                    date.setYear(year);
+                                                }
+
+                                                disDays = self._getDisabledDays(date, d, month);
+
+                                                disDays.forEach(function(date) {
+                                                    if (date.getDate() == dayN - 1) {
+                                                        day.className += " disabledDay";
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    });
+                                }
+                            });
+                        }
+
+                        // check for disabled dates
+                        if (this.disabledDates != "" || this.disabledInMonths != "") {
+                            this.disabledInMonths.forEach(function(disMonth) {
+                                if (disMonth == month + 1) {
+                                    self.disabledDates.forEach(function(disDay) {
+                                        if (disDay == dayN - 1) {
+                                            day.className += " disabledDay";
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
                     else {
                         day.className += "mp-cld-day nextMonth";
                         var number = self._dayNumber(dayOfNextMonth++, nextMonth + 1, nextYear, day);
@@ -406,6 +516,24 @@
                 dayElem.setAttribute("data-date", dataDate);
 
                 return dayElem;
+            },
+
+            _getDisabledDays: function(date, d, month) {
+                var disDays = [];
+
+                // start from the 1st of the month
+                date.setDate(1);
+
+                while (date.getDay() !== d) {
+                    date.setDate(date.getDate() + 1)
+                }
+
+                // Get all the other Disabled days in the month
+                while (date.getMonth() === month) {
+                    disDays.push(new Date(date.getTime()));
+                    date.setDate(date.getDate() + 7);
+                }
+                return disDays;
             }
         });
     </script>
