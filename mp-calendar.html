@@ -13,7 +13,8 @@
                      show-days-in-month=42
                      disabled-dates="[8, 17, 29]"
                      disabled-weeks="[5]"
-                     disabled-days='["Tu"]'>
+                     disabled-days='["Tu"]'
+                     events-data="events.json">
         </mp-calendar>
 
     @demo demo/index.html
@@ -173,6 +174,14 @@
                 disabledInMonths: {
                     type: Array,
                     value: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                },
+
+                /**
+                * Specify the events json file
+                * ex. events-data="events.json".
+                */
+                eventsData: {
+                    type: String
                 }
             },
 
@@ -193,6 +202,13 @@
             **/
 
             ready: function() {
+                var self = this;
+
+                if (this.eventsData) {
+                    this._getJSON(this.eventsData, function(json) {
+                        self._findAllEvents(json);
+                    });
+                }
                 this._makeCalendar(this.showDate.year, this.showDate.month);
             },
 
@@ -213,8 +229,6 @@
                 var dateObj = new Date(dataDate);
 
                 this.chosen = dataDate;
-
-                // pass date values to detail
                 this.showDate.year = dateObj.getFullYear();
                 this.date = {
                     year: this.showDate.year,
@@ -534,6 +548,59 @@
                     date.setDate(date.getDate() + 7);
                 }
                 return disDays;
+            },
+
+            _getJSON: function (url, callback) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                        callback(JSON.parse(xhr.responseText));
+                    }
+                };
+                xhr.open('GET', url, true);
+                xhr.send();
+            },
+
+            _findAllEvents: function(json) {
+                var elem = this;
+
+                json.forEach(function(item) {
+                    var div = document.createElement('div');
+                    var h = document.createElement('h3');
+                    var d = document.createElement('i');
+                    var span = document.createElement('span');
+                    var separator = document.createElement('div');
+                    var selector = '.day[data-date="' + item.date + '"]';
+                    var results = document.querySelectorAll(selector);
+                    var event = '';
+
+                    if (results) {
+                        for (var i = 0; i < results.length; i++) {
+                            results[i].classList.add(item.class);
+
+                            if (results[i].children.length == 0) {
+                                event += '<div class="mp-cld-event"><div class="event">'
+                                            + '<h3 class="' + item.class + '">' + item.title + ''
+                                            + '<i>' + item.date + '</i>'
+                                            + '</h3>'
+                                            + '<span class="' + item.class + '">' + item.content + '</span>'
+                                        + '</div></div>';
+
+                                Polymer.dom(results[i]).innerHTML += event;
+                            }
+                            else {
+                                event += '<span class="separator"></span><div class="event">'
+                                            + '<h3 class="' + item.class + '">' + item.title + ''
+                                            + '<i>' + item.date + '</i>'
+                                            + '</h3>'
+                                            + '<span class="' + item.class + '">' + item.content + '</span>'
+                                        + '</div>';
+
+                                Polymer.dom(results[i].children[i]).innerHTML += event;
+                            }
+                        }
+                    }
+                });
             }
         });
     </script>
