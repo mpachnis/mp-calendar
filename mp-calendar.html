@@ -565,38 +565,33 @@
                 var elem = this;
 
                 json.forEach(function(item) {
-                    var div = document.createElement('div');
-                    var h = document.createElement('h3');
-                    var d = document.createElement('i');
-                    var span = document.createElement('span');
-                    var separator = document.createElement('div');
                     var selector = '.day[data-date="' + item.date + '"]';
-                    var results = document.querySelectorAll(selector);
+                    var result = elem.$$(selector);
                     var event = '';
 
-                    if (results) {
-                        for (var i = 0; i < results.length; i++) {
-                            results[i].classList.add(item.class);
+                    if (result != undefined || result != null) {
+                        result.classList.add(item.category);
 
-                            if (results[i].children.length == 0) {
-                                event += '<div class="mp-cld-event"><div class="event">'
-                                            + '<h3 class="' + item.class + '">' + item.title + ''
-                                            + '<i>' + item.date + '</i>'
-                                            + '</h3>'
-                                            + '<span class="' + item.class + '">' + item.content + '</span>'
-                                        + '</div></div>';
+                        if (result.children.length == 0) {
+                            event += '<div class="mp-cld-event"><div class="event">'
+                                        + '<h3 class="' + item.category + '">' + item.title + ''
+                                        + '<i>' + item.date + '</i>'
+                                        + '</h3>'
+                                        + '<span class="' + item.category + '">' + item.content + '</span>'
+                                    + '</div></div>';
 
-                                Polymer.dom(results[i]).innerHTML += event;
-                            }
-                            else {
+                            Polymer.dom(result).innerHTML += event;
+                        }
+                        else {
+                            for (var i = 0; i < result.children.length; i++) {
                                 event += '<span class="separator"></span><div class="event">'
-                                            + '<h3 class="' + item.class + '">' + item.title + ''
+                                            + '<h3 class="' + item.category + '">' + item.title + ''
                                             + '<i>' + item.date + '</i>'
                                             + '</h3>'
-                                            + '<span class="' + item.class + '">' + item.content + '</span>'
+                                            + '<span class="' + item.category + '">' + item.content + '</span>'
                                         + '</div>';
 
-                                Polymer.dom(results[i].children[i]).innerHTML += event;
+                                Polymer.dom(result.children[i]).innerHTML += event;
                             }
                         }
                     }
