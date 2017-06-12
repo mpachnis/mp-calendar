@@ -1,7 +1,7 @@
 {
     "name": "mp-calendar",
-    "description": "A simple calendar web components",
-    "version": "0.1.4",
+    "description": "mp-calendar is a simple web component calendar build with Polymer 1.0",
+    "version": "0.1.5",
     "homepage": "http://minas.pachnis.com",
     "authors": [
         "Minas Pachnis <minas@bugeffect.com>"

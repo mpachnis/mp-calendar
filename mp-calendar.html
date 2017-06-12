@@ -4,7 +4,7 @@
 
 <!--
 
-    `mp-calendar` is a simple Polymer element providing calendar date functionality.
+    `mp-calendar` is a simple web component providing calendar date functionality build with Polymer 1.0.
 
     ### Example
 
@@ -14,7 +14,7 @@
                      disabled-dates="[8, 17, 29]"
                      disabled-weeks="[5]"
                      disabled-days='["Tu"]'
-                     events-data="events.json">
+                     events-file="events.json">
         </mp-calendar>
 
     @demo demo/index.html
@@ -178,10 +178,15 @@
 
                 /**
                 * Specify the events json file
-                * ex. events-data="events.json".
+                * ex. events-file="events.json".
                 */
-                eventsData: {
+                eventsFile: {
                     type: String
+                },
+
+                _eventsData: {
+                    type: Object,
+                    value: {}
                 }
             },
 
@@ -204,12 +209,16 @@
             ready: function() {
                 var self = this;
 
-                if (this.eventsData) {
-                    this._getJSON(this.eventsData, function(json) {
-                        self._findAllEvents(json);
+                if (this.eventsFile) {
+                    this._getJSON(this.eventsFile, function(json) {
+                        self._eventsData = json;
+                        self._makeCalendar(self.showDate.year, self.showDate.month);
                     });
                 }
-                this._makeCalendar(this.showDate.year, this.showDate.month);
+                else {
+                    this._makeCalendar(this.showDate.year, this.showDate.month);
+                }
+
             },
 
             attached: function() {
@@ -306,20 +315,14 @@
 
                 this.currentMonth = this.monthLabels[this.showDate.month];
 
-                if (oldDate !== undefined) {
-                    if ((this.showDate.month + 1) !== oldDate.month) {
-                        this._makeCalendar(this.showDate.year, this.showDate.month);
-                    }
-                }
-
                 this.fire('dateSelected', this.date);
 
                 if (!!newDate && !!oldDate) {
-                    if (newDate.date.getMonth() > oldDate.date.getMonth()) {
+                    if (newDate.month > oldDate.month) {
                         this.fire('nextMonth');
                         this._makeCalendar(this.showDate.year, this.showDate.month);
                     }
-                    if (newDate.date.getMonth() < oldDate.date.getMonth()) {
+                    if (newDate.month < oldDate.month) {
                         this.fire('prevMonth');
                         this._makeCalendar(this.showDate.year, this.showDate.month);
                     }
@@ -338,7 +341,7 @@
                 }
 
                 this.fire('dateSelected', this.date);
-                this._makeCalendar(this.showDate.year, this.showDate.month);
+                // this._makeCalendar(this.showDate.year, this.showDate.month);
             },
 
             // make the calendar days
@@ -509,6 +512,10 @@
                     Polymer.dom(week).appendChild(day);
                 }
                 Polymer.dom(mainSection).appendChild(days);
+
+                if (this.eventsFile) {
+                    this._findDateEvents(this._eventsData);
+                }
             },
 
             // get days number of each month
@@ -561,16 +568,49 @@
                 xhr.send();
             },
 
-            _findAllEvents: function(json) {
+            _findDateEvents: function(eventData) {
                 var elem = this;
 
-                json.forEach(function(item) {
+                eventData.forEach(function(item) {
                     var selector = '.day[data-date="' + item.date + '"]';
                     var result = elem.$$(selector);
                     var event = '';
+                    var events = [];
+                    var weight = 0;
 
                     if (result != undefined || result != null) {
-                        result.classList.add(item.category);
+                        for (var i in eventData) {
+                            if (eventData[i].date === result.getAttribute('data-date')) {
+                                events.push(eventData[i]);
+                            }
+                        }
+
+                        if (events.length == 1) {
+                            weight = 4;
+                        }
+                        else if (events.length <= 3) {
+                            weight = 3;
+                        }
+                        else {
+                            result.style.boxShadow = "inset -4px 0 0 0 rgb(75, 74, 75)";
+                        }
+
+                        if (weight > 0) {
+                            var boxShadow = '';
+
+                            for (var i in events) {
+                                if (boxShadow != "") {
+                                    boxShadow += ",";
+                                }
+                                if (events[i].color != undefined) {
+                                    boxShadow += 'inset -' + (parseInt(i) + 1) * weight + 'px 0 0 0 ' + events[i].color;
+                                }
+                                else {
+                                    boxShadow += 'inset -' + (parseInt(i) + 1) * weight + 'px 0 0 0 ' + events[i].category;
+                                }
+                            }
+                            result.style.boxShadow = boxShadow;
+                        }
 
                         if (result.children.length == 0) {
                             event += '<div class="mp-cld-event"><div class="event">'

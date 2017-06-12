@@ -334,12 +334,12 @@
                 .mp-cld-day h3.red { color: #e81c12; }
                 .mp-cld-day h3.blue { color: #1153d8; }
                 .mp-cld-day h3.green { color: #3c763d; }
-                .mp-cld-day h3.yellow { color: #e88e0f; }
+                .mp-cld-day h3.orange { color: #e88e0f; }
 
                 .mp-cld-day.red { box-shadow: #e81c12 -3px 0 0 0 inset, rgb(232, 28, 18) 0 0 0 0 inset; }
                 .mp-cld-day.blue { box-shadow: #1153d8 -3px 0 0 0 inset, rgb(17, 83, 216) 0 0 0 0 inset; }
                 .mp-cld-day.green { box-shadow: #3c763d -3px 0 0 0 inset, rgb(60, 118, 61) 0 0 0 0 inset; }
-                .mp-cld-day.yellow { box-shadow: #e88e0f -3px 0 0 0 inset, rgb(232, 142, 15) 0 0 0 0 inset; }
+                .mp-cld-day.orange { box-shadow: #e88e0f -3px 0 0 0 inset, rgb(232, 142, 15) 0 0 0 0 inset; }
 
                 .mp-cld-day .mp-cld-event .event h3 {
                     font-size: 16px;
@@ -402,7 +402,9 @@
                     display: block;
                 }
 
-                .mp-cld-day.currMonth:hover .mp-cld-event {
+                .mp-cld-day.prevMonth:hover .mp-cld-event,
+                .mp-cld-day.currMonth:hover .mp-cld-event,
+                .mp-cld-day.nextMonth:hover .mp-cld-event {
                     opacity: 1;
                     visibility: visible;
                     transition-delay: 0s;

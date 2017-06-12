@@ -2,49 +2,49 @@
     {
         "title": "Red style category",
         "content": "Skype call at 15:40",
-        "date": "2017-05-04",
+        "date": "2017-06-02",
         "category": "red"
     },
     {
-        "title": "Yellow style category",
+        "title": "orange style category",
         "content": "Remind me something",
-        "date": "2017-05-06",
-        "category": "yellow"
+        "date": "2017-06-05",
+        "category": "orange"
     },
     {
         "title": "Green style category",
         "content": "Remind me something",
-        "date": "2017-05-10",
+        "date": "2017-06-10",
         "category": "green"
     },
     {
         "title": "Blue style category",
         "content": "Doctor's appointment at 20:00",
-        "date": "2017-05-19",
+        "date": "2017-06-18",
         "category": "blue"
     },
     {
         "title": "Blue style category",
         "content": "cotnent in blue category event",
-        "date": "2017-05-21",
+        "date": "2017-06-21",
         "category": "blue"
     },
     {
         "title": "Green style category",
         "content": "",
-        "date": "2017-05-21",
+        "date": "2017-06-21",
         "category": "green"
     },
     {
         "title": "Red style category",
         "content": "",
-        "date": "2017-05-21",
+        "date": "2017-06-21",
         "category": "red"
     },
     {
-        "title": "Yellow style category",
+        "title": "orange style category",
         "content": "Schedule skype call",
-        "date": "2017-05-21",
-        "category": "yellow"
+        "date": "2017-06-21",
+        "category": "orange"
     }
 ]
