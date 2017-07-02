@@ -340,8 +340,9 @@
                     year: today.getFullYear()
                 }
 
+                this.chosen = "";
                 this.fire('dateSelected', this.date);
-                // this._makeCalendar(this.showDate.year, this.showDate.month);
+                this._makeCalendar(this.showDate.year, this.showDate.month);
             },
 
             // make the calendar days
@@ -476,7 +477,7 @@
                                                     date.setYear(year);
                                                 }
 
-                                                disDays = self._getDisabledDays(date, d, month);
+                                                disDays = self._getDisabledDays(d, month, year);
 
                                                 disDays.forEach(function(date) {
                                                     if (date.getDate() == dayN - 1) {
@@ -539,21 +540,17 @@
                 return dayElem;
             },
 
-            _getDisabledDays: function(date, d, month) {
+            _getDisabledDays: function(day, month, year) {
                 var disDays = [];
+                var monthDays = this._numberOfDays(year, month);
 
-                // start from the 1st of the month
-                date.setDate(1);
-
-                while (date.getDay() !== d) {
-                    date.setDate(date.getDate() + 1)
+                for (var i = 0; i <= monthDays; i++) {
+                    var date = new Date(year, month, i, 0)
+                    if (date.getDay() == day) {
+                        disDays.push(date);
+                    }
                 }
 
-                // Get all the other Disabled days in the month
-                while (date.getMonth() === month) {
-                    disDays.push(new Date(date.getTime()));
-                    date.setDate(date.getDate() + 7);
-                }
                 return disDays;
             },
 
@@ -584,7 +581,7 @@
                                 events.push(eventData[i]);
                             }
                         }
-
+                        // from http://www.bootstrap-year-calendar.com/
                         if (events.length == 1) {
                             weight = 4;
                         }
@@ -602,12 +599,7 @@
                                 if (boxShadow != "") {
                                     boxShadow += ",";
                                 }
-                                if (events[i].color != undefined) {
-                                    boxShadow += 'inset -' + (parseInt(i) + 1) * weight + 'px 0 0 0 ' + events[i].color;
-                                }
-                                else {
-                                    boxShadow += 'inset -' + (parseInt(i) + 1) * weight + 'px 0 0 0 ' + events[i].category;
-                                }
+                                boxShadow += 'inset -' + (parseInt(i) + 1) * weight + 'px 0 0 0 ' + events[i].category;
                             }
                             result.style.boxShadow = boxShadow;
                         }
