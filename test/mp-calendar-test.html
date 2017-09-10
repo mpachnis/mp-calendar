@@ -19,55 +19,71 @@
     </test-fixture>
 
     <script>
-    suite('mp-calendar', function() {
-        var mpCalendar;
+        suite('mp-calendar', () => {
+            var mpCalendar;
 
-        setup(function() {
-            mpCalendar = fixture('mpCalendar');
+            setup(() => {
+                mpCalendar = fixture('mpCalendar');
+            });
+
+            test('set disablePrevDays attribute to false, then to true', () => {
+                mpCalendar.disablePrevDays = true;
+                assert.equal(mpCalendar.disablePrevDays, true);
+
+                mpCalendar.disablePrevDays = false;
+                assert.equal(mpCalendar.disablePrevDays, false);
+            });
+
+            test('check dayLabels', () => {
+                expect(mpCalendar.dayLabels).to.be.an('array');
+            });
+
+            test('check dayLabels to be 7', () => {
+                assert.equal(mpCalendar.dayLabels.length, 7);
+            });
+
+            test('check monthLabels', () => {
+                expect(mpCalendar.monthLabels).to.be.an('array');
+            });
+
+            test('check monthLabels to be 12', () => {
+                assert.equal(mpCalendar.monthLabels.length, 12);
+            });
+
+            test('first day of week is Sunday', () => {
+                assert.equal(mpCalendar.firstDayOfWeek, 0);
+            });
+
+            test('check disabledDates', () => {
+                expect(mpCalendar.disabledDates).to.be.an('array');
+            });
+
+            test('5th, 10th and 29th days are disabled ', () => {
+                mpCalendar.disabledDates = [5, 10, 29];
+                assert.equal(mpCalendar.disabledDates[0], 5);
+                assert.equal(mpCalendar.disabledDates[1], 10);
+                assert.equal(mpCalendar.disabledDates[2], 29);
+            });
+
+            test('check disabledWeeks', () => {
+                expect(mpCalendar.disabledWeeks).to.be.an('array');
+            });
+
+            test('3rd week is disabled ', () => {
+                mpCalendar.disabledWeeks = [3];
+                assert.equal(mpCalendar.disabledWeeks, 3);
+            });
+
+            test('check disabledDays', () => {
+                expect(mpCalendar.disabledDays).to.be.an('array');
+            });
+
+            test('Monday and Thursday are disabled ', () => {
+                mpCalendar.disabledDays = ["Monday", "Thursday"];
+                assert.equal(mpCalendar.disabledDays[0], "Monday");
+                assert.equal(mpCalendar.disabledDays[1], "Thursday");
+            });
         });
-
-        test('instantiating the element works', function() {
-            assert.equal(mpCalendar.is, 'mp-calendar');
-        });
-
-        test('set disablePrevDays attribute to false, then to true', function() {
-            mpCalendar.disablePrevDays = true
-            assert.equal(mpCalendar.disablePrevDays, true);
-
-            mpCalendar.disablePrevDays = false
-            assert.equal(mpCalendar.disablePrevDays, false);
-        });
-
-        test('check dayLabels', function() {
-            expect(mpCalendar.dayLabels).to.be.an('array');
-        });
-
-        test('check monthLabels', function() {
-            expect(mpCalendar.monthLabels).to.be.an('array');
-        });
-
-        test('first day of week is Sunday', function() {
-            assert.equal(mpCalendar.firstDayOfWeek, 0);
-        });
-
-        test('5th, 10th and 29th days are disabled ', function() {
-            mpCalendar.disabledDates = [5, 10, 29];
-            assert.equal(mpCalendar.disabledDates[0], 5);
-            assert.equal(mpCalendar.disabledDates[1], 10);
-            assert.equal(mpCalendar.disabledDates[2], 29);
-        });
-
-        test('3rd week is disabled ', function() {
-            mpCalendar.disabledWeeks = [3];
-            assert.equal(mpCalendar.disabledWeeks, 3);
-        });
-
-        test('Monday and Thursday are disabled ', function() {
-            mpCalendar.disabledDays = ["Monday", "Thursday"];
-            assert.equal(mpCalendar.disabledDays[0], "Monday");
-            assert.equal(mpCalendar.disabledDays[1], "Thursday");
-        });
-    });
     </script>
 </body>
 </html>

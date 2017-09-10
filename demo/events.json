@@ -2,49 +2,63 @@
     {
         "title": "Red style category",
         "content": "Skype call at 15:40",
-        "date": "2017-06-02",
-        "category": "red"
+        "date": "2017-07-01",
+        "end": "2017-07-03",
+        "category": "red",
+        "color": "#d60000"
     },
     {
-        "title": "orange style category",
-        "content": "Remind me something",
-        "date": "2017-06-05",
+        "title": "Orange style category",
+        "content": "Just a reminder",
+        "date": "2017-08-06",
         "category": "orange"
     },
     {
         "title": "Green style category",
-        "content": "Remind me something",
-        "date": "2017-06-10",
+        "content": "Another reminder",
+        "date": "2017-09-10",
         "category": "green"
     },
     {
         "title": "Blue style category",
         "content": "Doctor's appointment at 20:00",
-        "date": "2017-06-18",
-        "category": "blue"
+        "date": "2017-09-18",
+        "category": "blue",
+        "color": "#1386c9"
     },
     {
         "title": "Blue style category",
         "content": "cotnent in blue category event",
-        "date": "2017-06-21",
-        "category": "blue"
+        "date": "2017-07-21",
+        "category": "blue",
+        "color": "#1386c9"
     },
     {
         "title": "Green style category",
         "content": "",
-        "date": "2017-06-21",
-        "category": "green"
+        "date": "2017-07-21",
+        "category": "green",
+        "color": "#9cb703"
     },
     {
         "title": "Red style category",
-        "content": "",
-        "date": "2017-06-21",
-        "category": "red"
+        "content": "Meeting at 20:00",
+        "date": "2017-07-21",
+        "category": "red",
+        "color": "#d60000"
     },
     {
-        "title": "orange style category",
+        "title": "Orange style category",
+        "content": "Canceled: Scrum meeting",
+        "date": "2017-07-30",
+        "category": "orange",
+        "color": "#f5a739"
+    },
+    {
+        "title": "Orange style category",
         "content": "Schedule skype call",
-        "date": "2017-06-21",
-        "category": "orange"
+        "date": "2017-07-27",
+        "category": "orange",
+        "color": "#f5a739"
     }
 ]

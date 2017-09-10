@@ -1,10 +1,10 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../fa-awesome/fa-awesome.html">
+<link rel="import" href="../polymer/lib/mixins/gesture-event-listeners.html">
 <link rel="import" href="mp-calendar-theme.html">
 
 <!--
 
-    `mp-calendar` is a simple web component providing calendar date functionality build with Polymer 1.0.
+    `mp-calendar` is a web components providing calendar date functionality build with Polymer 2.0.
 
     ### Example
 
@@ -14,621 +14,787 @@
                      disabled-dates="[8, 17, 29]"
                      disabled-weeks="[5]"
                      disabled-days='["Tu"]'
-                     events-file="events.json">
+                     events-data="events.json">
         </mp-calendar>
+
+
+    ### Properties
+
+        Property | Type | Description | Default
+        -------- | ----------- | ----------- | -----------
+        chosen | String | selected day, format set to 'YYYY-MM-DD' | None
+        date | Object | The currently selected date. | {"month": NaN, "day": null, "date": d}
+        day-labels | Array | This property can be used to localize the elements day labels. Do not change the order | Default: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+        disabled-dates | Array | Disable week days. Set the disabled dates. ex. disabled-dates="[4, 10, 12, 19, 30]" | None
+        disabled-days | Object | Disable week days. Set the disabled days. This will read the days from dayLabels. If you use custom dayLabels use the same values here. ex. if dayLabels default then disabled-days='["Monday", "Thursday"]'. if dayLabels custom then => day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]' disabled-days='["Mo", "Th"]'. | None
+        disabled-in-months | Array | In which month, days or weeks should be disabled. If not set the disabledDates & disabledWeeks will disabled for all months. ex. disabled-in-months="[5, 6]". The disabledDates & disabledWeeks will effective on May & June | None
+        disabled-weeks | Array | Disable weeks, starting from 0 to 4 for default. If showDaysInMonth = 42 then total weeks = 5 ex. disabled-weeks="[3]". This will disable the 3th week. | None
+        disable-prev-days | Boolean | Disable previous month days | false
+        event-day-color | String | Border color for the day that have more than 3 events, values can set to name, rgb or hex | #b56ce2
+        events-file | String | Specify the events json file. ex. events-data="events.json" | None
+        first-day-of-week | Number | Set the first day of the week. Sunday is 0, Monday is 1 and so on | 0
+        month-labels | Array | This property can be used to localize the elements month labels. | [January, February, March, April, May, June, July, August, September, October, November, December]
+        show-days-in-month | Number | How many day will be visible on each month, including previous and next month days | 35
+        theme | String | Specify the calendar theme
+
+    ### Styling
+
+        Property | Description
+        -------- | -----------
+        --main-bg | Calendar's main background color
+        --header-bg | Calendar's header background color
+        --main-header-color | Calendar's header color
+        --header-icon-bg | Calendar's icons background
+        --header-icon-opacity | header's icon opacity on hover event
+        --labels-color | The color of the days
+        --border-width | Calendar's border width
+        --border-right-width | Calendar's right border (if you set it to 0 then the dates will have top and bottom border)
+        --border-color | Calendar's border color
+        --prev-days-bg | Calendar's previous month dates background color
+        --prev-days-color | Calendar's previous month dates color
+        --curr-days-bg | Calendar's current month dates background
+        --curr-days-color | Calendar's current month dates color
+        --next-days-bg | Calendar's next month dates background
+        --next-days-color | Calendar's next month dates color
+        --disabled-color | Calendar's disabled dates color
+        --disabled-text-shadow | Calendar's disabled dates text shadow effect
+        --selected-day-bg | Calendar's selected day background color
+        --today-boxshadow-color | Calendar's current date shadow style, it's adding a small border style effect
+        --selected-day-hover-bg | Calendar's selected day background color on hover
+
 
     @demo demo/index.html
 -->
 
 <dom-module id="mp-calendar">
     <template>
-        <style is="custom-style" include="mp-calendar-theme"></style>
+        <style include="mp-calendar-theme"></style>
+
+        <iron-a11y-keys id="a11y" target="{{target}}" keys="up down left right tab space" on-keys-pressed="{{chosen}}"></iron-a11y-keys>
 
         <div id="content">
             <div id="header">
                 <div class="month-display">
-                    <div on-click="prevMonthHandler">
-                        <fa-awesome id="prevMonth" icon="fa:chevron-left" class="calendar-icon-left"></fa-awesome>
+                    <div id="prev-month" on-click="prevMonthHandler">
+                        <svg class="calendar-icon-left" viewBox="0 0 32 32" width="32px" height="32px">
+                            <path d="M7.701,14.276l9.586-9.585c0.879-0.878,2.317-0.878,3.195,0l0.801,0.8c0.878,0.877,0.878,2.316,0,3.194  L13.968,16l7.315,7.315c0.878,0.878,0.878,2.317,0,3.194l-0.801,0.8c-0.878,0.879-2.316,0.879-3.195,0l-9.586-9.587  C7.229,17.252,7.02,16.62,7.054,16C7.02,15.38,7.229,14.748,7.701,14.276z" />
+                        </svg>
                     </div>
 
-                    <div id="currentMonth">{{currentMonth}} {{date.year}}
-                        <span id="todayDate" on-click="goToCurrentDate">
-                            <fa-awesome icon="fa:calendar" class="calendar-icon-todayDate"></fa-awesome>
+                    <div id="currentMonth">
+                        <span class="currentMonthDate">{{currentMonth}} {{showDate.year}}</span>
+                        <span class="todayDate" on-click="goToCurrentDate" title="Go to current date">
+                            <div class="show-inner-date">{{calendarDay}}</div>
+                            <svg class="calendar-icon-todayDay" viewBox="0 0 1792 1792" width="28px" height="28px">
+                                <path d="M192 1664h1408v-1024h-1408v1024zm384-1216v-288q0-14-9-23t-23-9h-64q-14 0-23 9t-9 23v288q0 14 9 23t23 9h64q14 0 23-9t9-23zm768 0v-288q0-14-9-23t-23-9h-64q-14 0-23 9t-9 23v288q0 14 9 23t23 9h64q14 0 23-9t9-23zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z"/>
+                            </svg>
                         </span>
                     </div>
 
-                    <div on-click="nextMonthHandler">
-                        <fa-awesome id="nextMonth" icon="fa:chevron-right" class="calendar-icon-right"></fa-awesome>
+                    <div id="next-month" on-click="nextMonthHandler">
+                        <svg height="32px" class="calendar-icon-left" viewBox="0 0 32 32" width="32px">
+                            <path d="M24.291,14.276L14.705,4.69c-0.878-0.878-2.317-0.878-3.195,0l-0.8,0.8c-0.878,0.877-0.878,2.316,0,3.194  L18.024,16l-7.315,7.315c-0.878,0.878-0.878,2.317,0,3.194l0.8,0.8c0.878,0.879,2.317,0.879,3.195,0l9.586-9.587  c0.472-0.471,0.682-1.103,0.647-1.723C24.973,15.38,24.763,14.748,24.291,14.276z" />
+                        </svg>
                     </div>
                 </div>
             </div>
-            <div id="mpCalendar"></div>
+            <div id="mpCalendar">
+                <div class="mp-cld-labels">
+                    <dom-repeat items=[[dayLabels]]>
+                        <template>
+                            <span class="mp-cld-label">[[item]]</span>
+                        </template>
+                    </dom-repeat>
+                </div>
+                <div id="cldDays" class="mp-cld-days"></div>
+            </div>
         </div>
     </template>
 
     <script>
-        Polymer({
-            is: 'mp-calendar',
+        (function() {
+            'use-strict';
 
-            properties: {
-
-                /**
-                * Disable previous month days
-                */
-                disablePrevDays: {
-                    type: Boolean,
-                    value: false
-                },
-
-                /**
-                * How many day will be visible on each month, including previous and next month days
-                */
-                showDaysInMonth: {
-                    type: Number,
-                    value: 35
-                },
-
-                /**
-                * selected day, format set to 'YYYY-MM-DD'
-                */
-                chosen: {
-                    type: Object,
-                    reflectToAttribute: true,
-                    observer: "_handlerChosen"
-                },
-
-                /**
-                * Set the first day of the week: Sunday is 0, Monday is 1, etc.
-                */
-                firstDayOfWeek: {
-                    type: Number,
-                    value: 0
-                },
-
-                /**
-                * This property can be used to localize the elements day labels. Do not change the order
-                */
-                dayLabels: {
-                    type: Array,
-                    value: function() {
-                        return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                    }
-                },
-
-                /**
-                * This property can be used to localize the elements month labels.
-                */
-                monthLabels: {
-                    type: Array,
-                    value: function() {
-                        return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                    }
-                },
-
-                /**
-                * Internal property that holds the current month and year displayed.
-                */
-                showDate: {
-                    type: Object,
-                    value: function() {
-                        return {
-                            year: 0,
-                            month: 1,
-                            day: 1
-                        };
-                    },
-                    readOnly: true
-                },
-
-                /**
-                * The currently selected date.
-                */
-                date: {
-                    type: Object,
-                    value: function() {
-                        var d = new Date();
-                        return {
-                            year: d.getFullYear(),
-                            month: d.getMonth() + 1,
-                            day: null,
-                            date: d
-                        }
-                    },
-                    observer: '_dateChanged'
-                },
-
-                /**
-                * Disable week days. Set the disabled dates.
-                * ex. disabled-dates="[4, 10, 12, 19, 30]".
-                */
-                disabledDates: {
-                    type: Array,
-                    value: []
-                },
-
-                /**
-                * Disable week days. Set the disabled days. This will read the days from dayLabels. If you use custom dayLabels use the same values here.
-                * ex. if dayLabels default then disabled-days='["Monday", "Thursday"]'.
-                * if dayLabels custom then => day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]' disabled-days='["Mo", "Th"]'.
-                */
-                disabledDays: {
-                    type: Object,
-                    value: function() {
-                        return [];
-                    }
-                },
-
-                /**
-                * Disable weeks, starting from 0 to 4 for default. If showDaysInMonth = 42 then total weeks = 5
-                * ex. disabled-weeks="[3]". This will disable the 3th week.
-                */
-                disabledWeeks: {
-                    type: Array,
-                    value: []
-                },
-
-                /**
-                * In which month, days or weeks should be disabled. If not set the disabledDates & disabledWeeks will disabled for all months.
-                * ex. disabled-in-months="[5, 6]". The disabledDates & disabledWeeks will effective on May & June
-                */
-                disabledInMonths: {
-                    type: Array,
-                    value: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                },
-
-                /**
-                * Specify the events json file
-                * ex. events-file="events.json".
-                */
-                eventsFile: {
-                    type: String
-                },
-
-                _eventsData: {
-                    type: Object,
-                    value: {}
-                }
-            },
-
-            /**
-            *   The `dateSelected` event fired when a date is selected
-            *   @event dateSelected
-            *   @detail {year: String, month: String, day: String, date: String, iso: String}
-            **/
-
-            /**   The `prevMonth` events fired when next month is clicked
-            *   @event prevMonth
-            *   @detail
-            **/
-
-            /**   The `nextMonth` events fired when next month is clicked
-            *   @event nextMonth
-            *   @detail
-            **/
-
-            ready: function() {
-                var self = this;
-
-                if (this.eventsFile) {
-                    this._getJSON(this.eventsFile, function(json) {
-                        self._eventsData = json;
-                        self._makeCalendar(self.showDate.year, self.showDate.month);
-                    });
-                }
-                else {
-                    this._makeCalendar(this.showDate.year, this.showDate.month);
+            class mpCalendar extends Polymer.GestureEventListeners(Polymer.Element) {
+                static get is() {
+                    return 'mp-calendar';
                 }
 
-            },
+                static get properties() {
+                    return {
+                        /**
+                        * Disable previous month days
+                        */
+                        disablePrevDays: Boolean,
 
-            attached: function() {
-                this.$.mpCalendar.addEventListener('click', this._selectionHandler.bind(this));
-            },
+                        /**
+                        * How many day will be visible on each month, including previous and next month days
+                        */
+                        showDaysInMonth: {
+                            type: Number,
+                            value: 35
+                        },
 
-            detached: function() {
-                this.$.mpCalendar.removeEventListener('click', this._selectionHandler.bind(this));
-            },
+                        /**
+                        * selected day, you also set a preselect day, format set to 'YYYY-MM-DD'.
+                        * ex. chosen="2017-06-23"
+                        */
+                        chosen: {
+                            type: String,
+                            notify: true,
+                            reflectToAttribute: true,
+                            observer: "_chosenHandler"
+                        },
 
-            // Fires the `dateSelected` event if some date was selected.
-            _selectionHandler: function(e) {
-                if (e.target.getAttribute('data-date') == null )
-                    return; // prevent from running if disablePrevDays is true
+                        /**
+                        * Set the first day of the week: Sunday is 0, Monday is 1, etc.
+                        */
+                        firstDayOfWeek: {
+                            type: Number,
+                            value: 0
+                        },
 
-                var dataDate = e.target.getAttribute("data-date");
-                var dateObj = new Date(dataDate);
+                        /**
+                        * This property can be used to localize the elements day labels. Do not change the order
+                        */
+                        dayLabels: {
+                            type: Array,
+                            value: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+                        },
 
-                this.chosen = dataDate;
-                this.showDate.year = dateObj.getFullYear();
-                this.date = {
-                    year: this.showDate.year,
-                    month: dateObj.getMonth() + 1,
-                    day: dateObj.getDate(),
-                    date: dateObj,
-                    isoDate: dataDate
-                };
-            },
+                        /**
+                        * This property can be used to localize the elements month labels.
+                        */
+                        monthLabels: {
+                            type: Array,
+                            value: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                        },
 
-            // handle the selected day
-            _handlerChosen: function(e) {
-                var self = this;
-                var selection = Polymer.dom(this.$.mpCalendar).querySelector('.selected');
-                if (selection) {
-                    selection.classList.remove('selected');
-                }
-                if (e == "" || e == null) {
-                    this.chosen = "";
-                }
-                else {
-                    this.chosen = e;
+                        /**
+                        * Internal property that holds the current month and year displayed.
+                        */
+                        showDate: {
+                            type: Object,
+                            value: {
+                                year: null,
+                                month: null,
+                                day: null
+                            },
+                            readOnly: true
+                        },
 
-                    var days = Polymer.dom(this.$.mpCalendar).querySelectorAll('.day');
-
-                    days.forEach(function(e, i) {
-                        if (self.chosen == e.getAttribute('data-date')) {
-                            e.classList.add('selected');
-                        }
-                    });
-                }
-            },
-
-            // Move to the previous month.
-            prevMonthHandler: function() {
-                this.set('showDate.month', this.showDate.month <= 0 ? 11 : this.showDate.month - 1);
-                this.set('showDate.year', this.showDate.month == 11 ? this.showDate.year - 1 : this.showDate.year);
-                this.chosen = "";
-
-                this.notifyPath('date.year', this.showDate.year);
-
-                this.currentMonth = this.monthLabels[this.showDate.month];
-                this._makeCalendar(this.showDate.year, this.showDate.month);
-                this.fire('prevMonth');
-            },
-
-            // Move to the next month.
-            nextMonthHandler: function() {
-                this.set('showDate.month', this.showDate.month == 11 ? 0 : this.showDate.month + 1);
-                this.set('showDate.year', this.showDate.month <= 0 ? this.showDate.year + 1 : this.showDate.year);
-                this.chosen = "";
-
-                this.notifyPath('date.year', this.showDate.year);
-
-                this.currentMonth = this.monthLabels[this.showDate.month];
-                this._makeCalendar(this.showDate.year, this.showDate.month);
-                this.fire('nextMonth');
-            },
-
-            // Switch to the right calendar page, based on the set date.
-            _dateChanged: function(newDate, oldDate) {
-                var date = new Date();
-                var month = parseInt(newDate.month) || 1;
-                var year = parseInt(newDate.year) || date.getFullYear();
-                var day = parseInt(newDate.day) || 1;
-
-                this.date.month = month;
-                this.date.year = year;
-                this.date.day = this.date.day != null ? day : null;
-
-                this._setShowDate({
-                    month: month - 1,
-                    year: year
-                });
-
-                this.currentMonth = this.monthLabels[this.showDate.month];
-
-                this.fire('dateSelected', this.date);
-
-                if (!!newDate && !!oldDate) {
-                    if (newDate.month > oldDate.month) {
-                        this.fire('nextMonth');
-                        this._makeCalendar(this.showDate.year, this.showDate.month);
-                    }
-                    if (newDate.month < oldDate.month) {
-                        this.fire('prevMonth');
-                        this._makeCalendar(this.showDate.year, this.showDate.month);
-                    }
-                }
-            },
-
-            // Set the calendar to the today date
-            goToCurrentDate: function() {
-                var today = new Date();
-
-                this.date = {
-                    date: today,
-                    day: null,
-                    month: today.getMonth() + 1,
-                    year: today.getFullYear()
-                }
-
-                this.chosen = "";
-                this.fire('dateSelected', this.date);
-                this._makeCalendar(this.showDate.year, this.showDate.month);
-            },
-
-            // make the calendar days
-            _makeCalendar: function(year, month) {
-                var self = this;
-                var today = new Date();
-                var thisDay = today.getDate();
-                var thisMonth = today.getMonth() + 1;
-                var thisYear = today.getFullYear();
-                var firstDayOfMonth = new Date(year, month, 1);
-                var dayOfMonthStart = new Date(year, month, 1).getDay(); // which day the month starts (0 - 6)
-                var calendarElem = Polymer.dom(this.$.mpCalendar);
-
-                this.$.mpCalendar.innerHTML = '';
-
-                var mainSection = document.createElement('div');
-                mainSection.className += "mp-cld-main";
-
-                var labels = document.createElement('div');
-                labels.className = 'mp-cld-labels';
-                var labelsList = this.dayLabels;
-
-                for (var i = 0; i < labelsList.length; i++) {
-                    var label = document.createElement('span');
-                    // get the first day based on firstDay property
-                    var dayName = (i + this.firstDayOfWeek) % 7;
-
-                    label.className += "mp-cld-label";
-                    label.innerHTML = labelsList[dayName];
-                    Polymer.dom(labels).appendChild(label);
-                }
-
-                Polymer.dom(mainSection).appendChild(labels);
-                calendarElem.appendChild(mainSection);
-
-                // fix the year and the month
-                if (month === 0) {
-                    previousMonth = 11;
-                    var previousYear = year - 1;
-                }
-                else {
-                    previousMonth = month - 1;
-                    previousYear = year
-                }
-                if (month === 11) {
-                    nextMonth = 0;
-                    var nextYear = year + 1;
-                }
-                else {
-                    nextMonth = month + 1;
-                    nextYear = year;
-                }
-
-                var currentMonth = month;
-                var previousMonthDays;
-                if (month === 0) {
-                    previousMonthDays = self._numberOfDays(year, 12);
-                }
-                else {
-                    previousMonthDays = self._numberOfDays(year, month);
-                }
-                var currentMonthDays = self._numberOfDays(year, month + 1);
-                var nextMonthDays = self._numberOfDays(year, month + 2);
-
-                 // define default day variables
-                var dayN = 1;
-                var dayOfNextMonth = 1;
-                var days = document.createElement('div');
-                days.className += "mp-cld-days";
-
-
-                for (var i = 0; i < self.showDaysInMonth; i++) {
-                    var day = document.createElement('span');
-                    // separated into weeks
-                    if (i % 7 === 0) {
-                        var week = document.createElement('div');
-                        week.className += "mp-cld-week";
-                        week.setAttribute("week", i / 7);
-
-                        // check for disabled weeks
-                        if (this.disabledWeeks != "" || this.disabledInMonths != "") {
-                            this.disabledInMonths.forEach(function(disMonth) {
-                                if (disMonth == month + 1) {
-                                    self.disabledWeeks.forEach(function(disWeek) {
-                                        if (disWeek == i / 7) {
-                                            week.className += " disabledWeek";
-                                        }
-                                    });
+                        /**
+                        * The currently selected date.
+                        */
+                        date: {
+                            type: Object,
+                            value: () => {
+                                var d = new Date();
+                                return {
+                                    year: d.getFullYear(),
+                                    month: d.getMonth() + 1,
+                                    day: null,
+                                    date: d
                                 }
-                            });
+                            },
+                            observer: '_dateChanged'
+                        },
+
+                        /**
+                        * Disable week days. Set the disabled dates.
+                        * ex. disabled-dates="[4, 10, 12, 19, 30]".
+                        */
+                        disabledDates: {
+                            type: Array,
+                            value: []
+                        },
+
+                        /**
+                        * Disable week days. Set the disabled days. This will read the days from dayLabels. If you use custom dayLabels use the same values here.
+                        * ex. if dayLabels default then disabled-days='["Monday", "Thursday"]'.
+                        * if dayLabels custom then => day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]' disabled-days='["Mo", "Th"]'.
+                        */
+                        disabledDays: {
+                            type: Object,
+                            value: []
+                        },
+
+                        /**
+                        * Disable weeks, starting from 0 to 4 for default. If showDaysInMonth = 42 then total weeks = 5
+                        * ex. disabled-weeks="[3]". This will disable the 3th week.
+                        */
+                        disabledWeeks: {
+                            type: Array,
+                            value: []
+                        },
+
+                        /**
+                        * In which month, days or weeks should be disabled. If not set the disabledDates & disabledWeeks will disabled for all months.
+                        * ex. disabled-in-months="[5, 6]". The disabledDates & disabledWeeks will effective on May & June
+                        */
+                        disabledInMonths: {
+                            type: Array,
+                            value: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                        },
+
+                        /**
+                        * Specify the events json file
+                        * ex. events-file="events.json".
+                        */
+                        eventsFile: String,
+
+                        /**
+                        * Specify the color for a day that have more than 4 events.
+                        * Values can set to name, rgb(a) or hex
+                        */
+                        eventDayColor: {
+                            type: String,
+                            value: "#b56ce2"
+                        },
+
+                        /**
+                        * An object to keep all the events
+                        */
+                        _eventsData: {
+                            type: Object,
+                            value: {}
+                        },
+
+                        /**
+                        * Specify the calendar theme
+                        * available themes: light-blue, dark.
+                        */
+                        theme: {
+                            type: String,
+                            value: ""
                         }
                     }
+                }
 
-                    if (i < (dayOfMonthStart - self.firstDayOfWeek)) {
-                        day.className += "mp-cld-day prevMonth";
+                // static get observerAttrinutes() {
+                //     return
+                // }
+                constructor() {
+                    super();
+                }
 
-                        if (self.disablePrevDays) {
-                            day.innerHTML += "&nbsp;";
-                            day.className += " disabled";
+                ready() {
+                    super.ready();
+
+                    if (this.eventsFile) {
+                        this._getJSON(this.eventsFile, (json) => {
+                            this._eventsData = json;
+                            this._initCalandar(this.showDate.month, this.showDate.year);
+                            this._checkChosen();
+                        });
+                    }
+                    else {
+                        this._initCalandar(this.showDate.month, this.showDate.year);
+                        this._checkChosen();
+                    }
+                    this._checkTheme();
+                }
+
+                connectedCallback() {
+                    super.connectedCallback();
+                    this._addListeners();
+                }
+
+                disconnectedCallback() {
+                    this._removeListeners();
+                }
+
+                _addListeners() {
+                    this.$.mpCalendar.addEventListener('click', this._selectionHandler.bind(this));
+                }
+
+                _removeListeners(){
+                    this.$.mpCalendar.removeEventListener('click', this._selectionHandler.bind(this));
+                }
+
+                _checkTheme() {
+                    switch(this.theme) {
+                        case 'light-blue':
+                            this._lightBlueTheme();
+                            break;
+                        case 'dark':
+                            this._darktTheme();
+                            break;
+                    }
+                }
+
+                _checkChosen() {
+                    if (this.chosen !== "" && this.chosen !== undefined) {
+                        var date = new Date(this.chosen);
+                        this.showDate.year = date.getFullYear();
+
+                        this.date = {
+                            year: this.showDate.year,
+                            month: date.getMonth() + 1,
+                            day: date.getDate(),
+                            date: date,
+                            isoDate: this.chosen
+                        }
+                    }
+                }
+
+                _selectionHandler(e) {
+                    if (e.target.getAttribute('data-date') == null )
+                        return;
+
+                    var dataDate = e.target.getAttribute("data-date");
+                    var dateObj = new Date(dataDate);
+
+                    this.chosen = dataDate;
+                    this.showDate.year = dateObj.getFullYear();
+                    this.date = {
+                        year: this.showDate.year,
+                        month: dateObj.getMonth() + 1,
+                        day: dateObj.getDate(),
+                        date: dateObj,
+                        isoDate: dataDate
+                    };
+                }
+
+                _chosenHandler(e) {
+                    var chosenDate = new Date(e);
+                    var chosenMonth = chosenDate.getMonth();
+
+                    if (chosenMonth == this.date.date.getMonth()) {
+                        var selection = Polymer.dom(this.$.cldDays).querySelector('.selected');
+                        if (selection) {
+                            selection.classList.remove('selected');
+                        }
+                        if (e == "" || e == null) {
+                            this.chosen = "";
                         }
                         else {
-                            var number = self._dayNumber((previousMonthDays - dayOfMonthStart) + (i + 1 + self.firstDayOfWeek), previousMonth + 1, previousYear, day);
-                        }
-                    }
+                            this.chosen = e;
+                            var days = Polymer.dom(this.$.mpCalendar).querySelectorAll('.day');
 
-                    else if (dayN <= currentMonthDays) {
-                        day.className += "mp-cld-day currMonth";
-                        var number = self._dayNumber(dayN++, currentMonth + 1, year, day);
-
-                        // If today
-                        if ((dayN - 1) == thisDay && month  == thisMonth - 1 && thisYear == year) {
-                            day.className += " today";
-                        }
-
-                        // If selected
-                        if ((dayN - 1) == this.date.day && month == this.date.month - 1 && year == this.date.year) {
-                            day.className += " selected";
-                        }
-
-                        // check for disabled days
-                        if (this.disabledDays != "" || this.disabledInMonths != "") {
-                            this.disabledInMonths.forEach(function(disMonth) {
-                                if (disMonth == month + 1) {
-                                    self.disabledDays.forEach(function(disDay, i) {
-                                        self.dayLabels.forEach(function(labDay, d) {
-                                            if (disDay === labDay) {
-                                                var date = new Date();
-                                                date.setDate(d);
-                                                date.setMonth(month);
-
-                                                if (date.getFullYear() != year) {
-                                                    date.setYear(year);
-                                                }
-
-                                                disDays = self._getDisabledDays(d, month, year);
-
-                                                disDays.forEach(function(date) {
-                                                    if (date.getDate() == dayN - 1) {
-                                                        day.className += " disabledDay";
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    });
+                            days.forEach((e, i) => {
+                                if (this.chosen == e.getAttribute('data-date')) {
+                                    e.classList.add('selected');
                                 }
                             });
-                        }
-
-                        // check for disabled dates
-                        if (this.disabledDates != "" || this.disabledInMonths != "") {
-                            this.disabledInMonths.forEach(function(disMonth) {
-                                if (disMonth == month + 1) {
-                                    self.disabledDates.forEach(function(disDay) {
-                                        if (disDay == dayN - 1) {
-                                            day.className += " disabledDay";
-                                        }
-                                    });
-                                }
-                            });
+                            this.date.day = chosenDate.getDate();
                         }
                     }
                     else {
-                        day.className += "mp-cld-day nextMonth";
-                        var number = self._dayNumber(dayOfNextMonth++, nextMonth + 1, nextYear, day);
-                    }
-
-                    Polymer.dom(days).appendChild(week);
-                    Polymer.dom(week).appendChild(day);
-                }
-                Polymer.dom(mainSection).appendChild(days);
-
-                if (this.eventsFile) {
-                    this._findDateEvents(this._eventsData);
-                }
-            },
-
-            // get days number of each month
-            // The month passed in is 1 for January, 2 for February and so on
-            _numberOfDays: function(year, month) {
-                return new Date(year, month, 0).getDate();
-            },
-
-            // build each day and add attributes
-            _dayNumber: function(dayDate, month, year, dayElem) {
-                // set 2 digit number
-                var span = document.createElement('span');
-                var dd = (dayDate < 10 ? '0' : '') + dayDate;
-                var mm = (month < 10 ? '0' : '') + month;
-                var dataDate = (year + "-" + mm + "-" + dd);
-
-                dayElem.className += " day";
-                dayElem.innerHTML += dayDate;
-                dayElem.setAttribute("data-date", dataDate);
-
-                return dayElem;
-            },
-
-            _getDisabledDays: function(day, month, year) {
-                var disDays = [];
-                var monthDays = this._numberOfDays(year, month);
-
-                for (var i = 0; i <= monthDays; i++) {
-                    var date = new Date(year, month, i, 0)
-                    if (date.getDay() == day) {
-                        disDays.push(date);
+                        this.showDate = {
+                            month: chosenMonth,
+                            year: chosenDate.getFullYear()
+                        };
                     }
                 }
 
-                return disDays;
-            },
+                prevMonthHandler() {
+                    this.set('showDate.month', this.showDate.month <= 0 ? 11 : this.showDate.month - 1);
+                    this.set('showDate.year', this.showDate.month == 11 ? this.showDate.year - 1 : this.showDate.year);
+                    this.chosen = "";
 
-            _getJSON: function (url, callback) {
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                        callback(JSON.parse(xhr.responseText));
+                    this.notifyPath('date.year', this.showDate.year);
+
+                    this.currentMonth = this.monthLabels[this.showDate.month];
+                    this._initCalandar(this.showDate.month, this.showDate.year);
+                    this._fire('prevMonth');
+                }
+
+                nextMonthHandler() {
+                    this.set('showDate.month', this.showDate.month == 11 ? 0 : this.showDate.month + 1);
+                    this.set('showDate.year', this.showDate.month <= 0 ? this.showDate.year + 1 : this.showDate.year);
+                    this.chosen = "";
+
+                    this.notifyPath('date.year', this.showDate.year);
+
+                    this.currentMonth = this.monthLabels[this.showDate.month];
+                    this._initCalandar(this.showDate.month, this.showDate.year);
+                    this._fire('nextMonth');
+                }
+
+                _fire(ev) {
+                    this.dispatchEvent(new CustomEvent(ev, {
+                        bubbles: true,
+                        composed: true
+                    }));
+                }
+
+                _dateChanged(newDate, oldDate) {
+                    var date = new Date();
+                    var month = parseInt(newDate.month) || 1;
+                    var year = parseInt(newDate.year) || date.getFullYear();
+                    var day = parseInt(newDate.day) || 1;
+
+                    this.date.month = month;
+                    this.date.year = year;
+                    this.date.day = this.date.day != null ? day : null;
+
+                    this._setShowDate({
+                        month: month - 1,
+                        year: year
+                    });
+
+                    this.currentMonth = this.monthLabels[this.showDate.month];
+                    this.calendarDay = this.date.day != null ? day : date.getDate();
+
+                    if (!!newDate && !!oldDate) {
+                        if (newDate.date.getMonth() > oldDate.date.getMonth()) {
+                            this._initCalandar(this.showDate.month, this.showDate.year);
+                            this.dispatchEvent(new CustomEvent('nextMonth'));
+                        }
+                        if (newDate.date.getMonth() < oldDate.date.getMonth()) {
+                            this._initCalandar(this.showDate.month, this.showDate.year);
+                            this.dispatchEvent(new CustomEvent('prevMonth'));
+                        }
                     }
-                };
-                xhr.open('GET', url, true);
-                xhr.send();
-            },
+                }
 
-            _findDateEvents: function(eventData) {
-                var elem = this;
+                goToCurrentDate(e) {
+                    var today = new Date();
 
-                eventData.forEach(function(item) {
-                    var selector = '.day[data-date="' + item.date + '"]';
-                    var result = elem.$$(selector);
-                    var event = '';
-                    var events = [];
-                    var weight = 0;
+                    this.date = {
+                        date: today,
+                        day: today.getDate(),
+                        month: today.getMonth() + 1,
+                        year: today.getFullYear()
+                    }
 
-                    if (result != undefined || result != null) {
-                        for (var i in eventData) {
-                            if (eventData[i].date === result.getAttribute('data-date')) {
-                                events.push(eventData[i]);
+                    this.chosen = "";
+                    this._initCalandar(this.showDate.month, this.showDate.year);
+                }
+
+                _initCalandar(month, year) {
+                    var today = new Date();
+                    var thisDay = today.getDate();
+                    var thisMonth = today.getMonth() + 1;
+                    var thisYear = today.getFullYear();
+                    var firstDayOfMonth = new Date(year, month, 1);
+                    var dayOfMonthStart = new Date(year, month, 1).getDay(); // which day the month starts (0 - 6)
+                    var calendarElem = Polymer.dom(this.$.mpCalendar);
+                    var previousMonth, previousYear, nextMonth, nextYear, previousMonthDays, disDays;
+
+                    this.$.cldDays.innerHTML = '';
+
+                    if (month === 0) {
+                        previousMonth = 11;
+                        previousYear = year - 1;
+                    }
+                    else {
+                        previousMonth = month - 1;
+                        previousYear = year
+                    }
+                    if (month === 11) {
+                        nextMonth = 0;
+                        nextYear = year + 1;
+                    }
+                    else {
+                        nextMonth = month + 1;
+                        nextYear = year;
+                    }
+
+                    if (month === 0) {
+                        previousMonthDays = this._numberOfDays(12, year);
+                    }
+                    else {
+                        previousMonthDays = this._numberOfDays(month, year);
+                    }
+
+                    var currentMonthDays = this._numberOfDays(month + 1, year);
+                    var nextMonthDays = this._numberOfDays(month + 2, year);
+
+                     // define default day variables
+                    var dayN = 1;
+                    var dayOfNextMonth = 1;
+                    var days = this.$.cldDays;
+
+                    for (var i = 0; i < this.showDaysInMonth; i++) {
+                        var day = document.createElement('span');
+                        // separated into weeks
+                        if (i % 7 === 0) {
+                            var week = document.createElement('div');
+                            week.className += "mp-cld-week";
+                            week.setAttribute("week", i / 7);
+
+                            // check for disabled weeks
+                            if (this.disabledWeeks != "" || this.disabledInMonths != "") {
+                                this.disabledInMonths.forEach((disMonth) => {
+                                    if (disMonth == month + 1) {
+                                        this.disabledWeeks.forEach((disWeek) => {
+                                            if (disWeek == i / 7) {
+                                                week.className += " disabledWeek";
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         }
-                        // from http://www.bootstrap-year-calendar.com/
-                        if (events.length == 1) {
-                            weight = 4;
-                        }
-                        else if (events.length <= 3) {
-                            weight = 3;
-                        }
-                        else {
-                            result.style.boxShadow = "inset -4px 0 0 0 rgb(75, 74, 75)";
+
+                        if (i < (dayOfMonthStart - this.firstDayOfWeek)) {
+                            day.className += "mp-cld-day prevMonth";
+
+                            if (this.disablePrevDays) {
+                                day.innerHTML += "&nbsp;";
+                                day.className += " disabled";
+                            }
+                            else {
+                                var number = this._dayNumber((previousMonthDays - dayOfMonthStart) + (i + 1 + this.firstDayOfWeek), previousMonth + 1, previousYear, day);
+                            }
                         }
 
-                        if (weight > 0) {
-                            var boxShadow = '';
+                        else if (dayN <= currentMonthDays) {
+                            day.className += "mp-cld-day currMonth";
+                            var number = this._dayNumber(dayN++, month + 1, year, day);
 
-                            for (var i in events) {
-                                if (boxShadow != "") {
-                                    boxShadow += ",";
+                            // If today
+                            if ((dayN - 1) == thisDay && month  == thisMonth - 1 && this.date.year == year) {
+                                day.className += " today";
+                            }
+
+                            // Keep the selected day on month change
+                            if (this.chosen) {
+                                if ((dayN - 1) == this.date.day && month == month && this.date.year == year) {
+                                    day.className += " selected";
                                 }
-                                boxShadow += 'inset -' + (parseInt(i) + 1) * weight + 'px 0 0 0 ' + events[i].category;
                             }
-                            result.style.boxShadow = boxShadow;
-                        }
 
-                        if (result.children.length == 0) {
-                            event += '<div class="mp-cld-event"><div class="event">'
-                                        + '<h3 class="' + item.category + '">' + item.title + ''
-                                        + '<i>' + item.date + '</i>'
-                                        + '</h3>'
-                                        + '<span class="' + item.category + '">' + item.content + '</span>'
-                                    + '</div></div>';
+                            // check for disabled days
+                            if (this.disabledDays != "" && this.disabledInMonths != "") {
+                                this.disabledInMonths.forEach((disMonth) => {
+                                    if (disMonth == month + 1) {
+                                        this.disabledDays.forEach((disDay, i) => {
+                                            this.dayLabels.forEach((labDay, d) => {
+                                                if (disDay === labDay) {
+                                                    var date = new Date();
+                                                    date.setDate(d);
+                                                    date.setMonth(month);
 
-                            Polymer.dom(result).innerHTML += event;
+                                                    if (date.getFullYear() != year) {
+                                                        date.setYear(year);
+                                                    }
+
+                                                    disDays = this._getDisabledDays(d, month, year);
+
+                                                    disDays.forEach((date) => {
+                                                        if (date.getDate() == dayN - 1) {
+                                                            day.className += " disabledDay";
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        });
+                                    }
+                                });
+                            }
+
+                            // check for disabled dates
+                            if (this.disabledDates != "" && this.disabledInMonths != "") {
+                                this.disabledInMonths.forEach((disMonth) => {
+                                    if (disMonth == month + 1) {
+                                        this.disabledDates.forEach((disDay) => {
+                                            if (disDay == dayN - 1) {
+                                                day.className += " disabledDay";
+                                            }
+                                        });
+                                    }
+                                });
+                            }
                         }
                         else {
-                            for (var i = 0; i < result.children.length; i++) {
-                                event += '<span class="separator"></span><div class="event">'
+                            day.className += "mp-cld-day nextMonth";
+                            var number = this._dayNumber(dayOfNextMonth++, nextMonth + 1, nextYear, day);
+                        }
+
+                        Polymer.dom(days).appendChild(week);
+                        Polymer.dom(week).appendChild(day);
+                    }
+                    Polymer.dom(calendarElem).appendChild(days);
+
+                    if (this.eventsFile) {
+                        this._findAllEvents(this._eventsData);
+                    }
+                }
+
+                // get days number of each month
+                // The month passed in is 1 for January, 2 for February and so on
+                _numberOfDays(month, year) {
+                    return new Date(year, month, 0).getDate();
+                }
+
+                // modify each day with 2 digit number and add attributes
+                _dayNumber(dayDate, month, year, dayElem) {
+                    var span = document.createElement('span');
+                    var dd = (dayDate < 10 ? '0' : '') + dayDate;
+                    var mm = (month < 10 ? '0' : '') + month;
+                    var dataDate = (year + "-" + mm + "-" + dd);
+
+                    dayElem.className += " day";
+                    dayElem.innerHTML += dayDate;
+                    dayElem.setAttribute("data-date", dataDate);
+                    dayElem.setAttribute("tabindex", 0);
+
+                    return dayElem;
+                }
+
+                _getDisabledDays(day, month, year) {
+                    var disDays = [];
+                    var monthDays = this._numberOfDays(month, year);
+
+                    for (var i = 0; i <= monthDays; i++) {
+                        var date = new Date(year, month, i, 0)
+                        if (date.getDay() == day) {
+                            disDays.push(date);
+                        }
+                    }
+                    return disDays;
+                }
+
+                _getJSON(url, callback) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                            callback(JSON.parse(xhr.responseText));
+                        }
+                    };
+                    xhr.open('GET', url, true);
+                    xhr.send();
+                }
+
+                _findAllEvents(events) {
+                    var today = new Date();
+                    var dd = (today.getDate() < 10 ? '0' : '') + today.getDate();
+                    var mm = (today.getMonth() < 10 ? '0' : '') + (today.getMonth() + 1);
+                    var isoToday = (today.getFullYear() + "-" + mm + "-" + dd);
+
+                    events.forEach((item) => {
+                        var selector = '.day[data-date="' + item.date + '"]';
+                        var result = this.$.content.querySelector(selector);
+                        var event = '';
+                        var dayEvents = [];
+                        var weight = 0;
+                        var color = '';
+
+                        if (result != undefined || result != null) {
+                            for (var i in events) {
+                                if (events[i].date === result.getAttribute('data-date')) {
+                                    dayEvents.push(events[i]);
+                                }
+                            }
+
+                            // from http://www.bootstrap-year-calendar.com/
+                            if (dayEvents.length <= 3) {
+                                weight = 3
+                            }
+                            else {
+                                result.style.boxShadow = "inset -4px 0 0 0 " + this.eventDayColor + "";
+                            }
+
+                            if (weight > 0) {
+                                var boxShadow = '';
+
+                                for (var i in dayEvents) {
+                                    if (boxShadow != '') {
+                                        boxShadow += ',';
+                                    }
+
+                                    if (dayEvents[i].date === isoToday) {
+                                        boxShadow += "var(--today-boxshadow-color) 0 -2px 0 0 inset, ";
+                                    }
+
+                                    boxShadow += 'inset -' + (parseInt(i) + 1) * weight + 'px 0 0 0 ' + ((dayEvents[i].color == undefined) ? dayEvents[i].category : dayEvents[i].color);
+                                }
+                                result.style.boxShadow = boxShadow;
+                            }
+
+                            if (result.children.length == 0) {
+                                event += '<div class="mp-cld-event"><div class="event">'
                                             + '<h3 class="' + item.category + '">' + item.title + ''
                                             + '<i>' + item.date + '</i>'
                                             + '</h3>'
                                             + '<span class="' + item.category + '">' + item.content + '</span>'
-                                        + '</div>';
+                                        + '</div></div>';
 
-                                Polymer.dom(result.children[i]).innerHTML += event;
+                                Polymer.dom(result).innerHTML += event;
                             }
+                            else {
+                                for (var i = 0; i < result.children.length; i++) {
+                                    event += '<span class="separator"></span><div class="event">'
+                                                + '<h3 class="' + item.category + '">' + item.title + ''
+                                                + '<i>' + item.date + '</i>'
+                                                + '</h3>'
+                                                + '<span class="' + item.category + '">' + item.content + '</span>'
+                                            + '</div>';
+
+                                    Polymer.dom(result.children[i]).innerHTML += event;
+                                }
+                            }
+
+                            setTimeout(() => {
+                                this.horizontallyBound(this, result.children[0]);
+                            });
                         }
+                    });
+                }
+
+                // check if event falls out of the parent div
+                horizontallyBound(parentDiv, childDiv) {
+                    var parentRect = parentDiv.getBoundingClientRect();
+                    var childRect = childDiv.getBoundingClientRect();
+
+                    if ((childRect.left + childRect.width) > parentRect.width) {
+                        childDiv.classList.remove("mp-cld-event");
+                        childDiv.classList.add("eventLeft");
                     }
-                });
+                }
+
+                _lightBlueTheme() {
+                    this.updateStyles({
+                        '--main-bg': '#fff',
+                        '--header-bg': 'rgba(6, 143, 189, .85)',
+                        '--main-header-color': '#fff',
+                        '--header-icon-bg': '#fff',
+                        '--header-icon-opacity': '',
+                        '--labels-color': '#068fbd',
+                        '--border-width': '1px',
+                        '--border-right-width': '0',
+                        '--border-color': 'rgba(6, 143, 189, .15)',
+                        '--prev-days-bg': '',
+                        '--prev-days-color': '#068fbd',
+                        '--curr-days-bg': '',
+                        '--curr-days-color': '#068fbd',
+                        '--next-days-bg': '',
+                        '--next-days-color': '#068fbd',
+                        '--disabled-color': 'rgba(6, 143, 189, .3)',
+                        '--disabled-text-shadow': '0 0 3px rgba(0, 0, 0, .25)',
+                        '--selected-day-bg': '#078dc0',
+                        '--today-boxshadow-color': '#077599',
+                        '--selected-day-hover-bg': 'rgba(6, 143, 189, .7)'
+                    });
+                }
+
+                _darktTheme() {
+                    this.updateStyles({
+                        '--main-bg': '#000',
+                        '--header-bg': '#000',
+                        '--main-header-color': '#fff',
+                        '--header-icon-bg': '#f33127',
+                        '--header-icon-opacity': '',
+                        '--labels-color': '#fff',
+                        '--border-width': '1px',
+                        '--border-color': 'rgba(255, 255, 255, .2)',
+                        '--prev-days-color': '#fff',
+                        '--curr-days-bg': '',
+                        '--curr-days-color': '#fff',
+                        '--prev-next-days-bg': 'rgba(158, 21, 14, 0.6)',
+                        '--next-days-color': '#fff',
+                        '--disabled-color': 'rgba(255, 255, 255, .3)',
+                        '--disabled-text-shadow': '0 0 2px rgba(255, 255, 255, .35)',
+                        '--selected-day-bg': '#af221b',
+                        '--today-boxshadow-color': '#f33127',
+                        '--selected-day-hover-bg': 'rgba(255, 13, 0, .5)'
+                    });
+                }
             }
-        });
+            customElements.define(mpCalendar.is, mpCalendar);
+        })();
     </script>
 </dom-module>

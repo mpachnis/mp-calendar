@@ -55,10 +55,42 @@ $ bower install --save mp-calendar
 
 ```
 
+### Themes
+There are 2 additional theme to chose, a dark and a light-blue.
+![dark style](demo/dark-theme.png) ![light blue style](demo/light-blue.png)
+
+You can also customize the calendar your self with the following properties:
+
+Property | Description
+-------- | -----------
+--main-bg | Calendar's main background color
+--header-bg | Calendar's header background color
+--main-header-color | Calendar's header color
+--header-icon-bg | Calendar's icons background
+--header-icon-opacity | header's icon opacity on hover event
+--labels-color | The color of the days
+--border-width | Calendar's border width
+--border-right-width | Calendar's right border (if you set it to 0 then the dates will have top and bottom border)
+--border-color | Calendar's border color
+--prev-days-bg | Calendar's previous month dates background color
+--prev-days-color | Calendar's previous month dates color
+--curr-days-bg | Calendar's current month dates background
+--curr-days-color | Calendar's current month dates color
+--next-days-bg | Calendar's next month dates background
+--next-days-color | Calendar's next month dates color
+--disabled-color | Calendar's disabled dates color
+--disabled-text-shadow | Calendar's disabled dates text shadow effect
+--selected-day-bg | Calendar's selected day background color
+--today-boxshadow-color | Calendar's current date shadow style, it's adding a small border style effect
+--selected-day-hover-bg | Calendar's selected day background color on hover
+
+
+
 ### Events
 There are 4 categories: red, blue, green, orange.
 Each day which have an event will also have a color line at the right side, based on the category.
 If a day have 3 or more events than the display color will be a dark grey.
+Date format YYYY-MM-DD.
 json example:
 
 ```html
