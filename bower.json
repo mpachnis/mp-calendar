@@ -10,7 +10,8 @@
         "calendar",
         "datepicker",
         "polymer",
-        "web-components"
+        "web-components",
+        "mpachnis"
     ],
     "license": "MIT",
     "main": "mp-calendar.html",
@@ -23,10 +24,10 @@
     },
     "devDependencies": {
         "web-component-tester": "v6.0.0",
-        "iron-component-page": "polymerelements/iron-component-page#^v2.0.0",
-        "iron-demo-helpers": "polymerelements/iron-demo-helpers#^v2.0.0",
-        "iron-test-helpers": "polymerelements/iron-test-helpers#^v2.0.0",
-        "test-fixture": "PolymerElements/test-fixture#^3.0.0-rc.1",
+        "iron-component-page": "^v2.0.0",
+        "iron-demo-helpers": "^v2.0.0",
+        "iron-test-helpers": "^v2.0.0",
+        "test-fixture": "^3.0.0-rc.1",
         "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
     }
 }
