@@ -6,7 +6,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/t2ym/i18n-element.git"
+        "url": "git+https://github.com/mpachnis/mp-calendar.git"
     },
     "devDependencies": {
         "bower": "latest",
