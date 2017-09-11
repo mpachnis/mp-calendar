@@ -11,7 +11,8 @@
         "datepicker",
         "polymer",
         "web-components",
-        "mpachnis"
+        "mpachnis",
+        "polymer 2.0"
     ],
     "license": "MIT",
     "main": "mp-calendar.html",
@@ -29,5 +30,11 @@
         "iron-test-helpers": "^v2.0.0",
         "test-fixture": "^3.0.0-rc.1",
         "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
-    }
+    },
+    "ignore": [
+        "node_modules",
+        "bower_components",
+        "package.json",
+        ".gitignore"
+    ],
 }
