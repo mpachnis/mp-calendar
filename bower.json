@@ -21,7 +21,7 @@
         "url": "https://github.com/mpachnis/mp-calendar.git"
     },
     "dependencies": {
-        "polymer": "^2.0.0",
+        "polymer": "^2.0.0"
     },
     "devDependencies": {
         "web-component-tester": "^6.0.0",
