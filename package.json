@@ -2,9 +2,12 @@
     "name": "mp-calendar",
     "version": "2.0.0",
     "description": "Is a web components providing calendar date functionality build with Polymer 2.0",
-    "repository": "git@github.com:mpachnis/mp-calendar.git",
     "author": "Minas Pachnis <minas@bugeffect.com>",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/t2ym/i18n-element.git"
+    },
     "devDependencies": {
         "bower": "latest",
         "polymer-cli": "^1.0.0",
@@ -12,6 +15,6 @@
         "@webcomponents/webcomponentsjs": "^1.0.7"
     },
     "dependencies": {
-        "@polymer/polymer": "^2.0.0",
+        "@polymer/polymer": "^2.0.0"
     }
 }
