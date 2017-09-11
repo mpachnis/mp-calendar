@@ -17,11 +17,9 @@
     },
     "devDependencies": {
         "bower": "latest",
-        "polymer-cli": "^1.0.0",
-        "web-component-tester": "4.0.3",
-        "@webcomponents/webcomponentsjs": "^1.0.7"
+        "polymer-cli": "^1.2.0"
     },
-    "dependencies": {
-        "@polymer/polymer": "^2.0.0"
+    "scripts": {
+        "test": "wct"
     }
 }
