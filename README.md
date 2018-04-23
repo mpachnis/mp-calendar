@@ -85,7 +85,6 @@ Property | Description
 --selected-day-hover-bg | Calendar's selected day background color on hover
 
 
-
 ### Events
 There are 4 categories: red, blue, green, orange.
 Each day which have an event will also have a color line at the right side, based on the category.
@@ -138,6 +137,8 @@ month-labels | Array | This property can be used to localize the elements month 
 show-days-in-month | Number | How many day will be visible on each month, including previous and next month days | 35
 
 
+### Icons
+[Designed by Designerz Base](https://www.iconfinder.com/Designerzbase)
 
 ## License
 
