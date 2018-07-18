@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/mpachnis/mp-calendar.svg?branch=master)](https://travis-ci.org/mpachnis/mp-calendar) [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/mpachnis/mp-calendar)
-  
-[![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/mpachnismp-calendar)
-[![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/mpachnismp-calendar.svg)](https://vaadin.com/directory/component/mpachnismp-calendar)
+[![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/mpachnismp-calendar) [![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/mpachnismp-calendar.svg)](https://vaadin.com/directory/component/mpachnismp-calendar)
 
 ## &lt;mp-calendar&gt;
 
@@ -91,7 +89,7 @@ Property | Description
 There are 4 categories: red, blue, green, orange.
 Each day which have an event will also have a color line at the right side, based on the category.
 If a day have 3 or more events than the display color will be a dark grey.
-Date format YYYY-MM-DD.
+Date format YYYY-MM-DD. If you change the json file on `events-file` or an event on `events-object`, calendar will automatically show the changes.
 json example:
 
 ```html
@@ -134,6 +132,7 @@ disabled-in-months | Array | In which month, days or weeks should be disabled. I
 disabled-weeks | Array | Disable weeks, starting from 0 to 4 for default. If showDaysInMonth = 42 then total weeks = 5 ex. disabled-weeks="[3]". This will disable the 3th week. | None
 disable-prev-days | Boolean | Disable previous month days | false
 events-file | String | Specify the events json file. ex. events-file="events.json" | None
+events-object | Object | Specify an object containing events. ex. events-object='[{"title":"Red style category","content":"Skype call at 15:40","date":"2018-07-20","category":"red"}]' | None
 first-day-of-week | Number | Set the first day of the week. Sunday is 0, Monday is 1 and so on | 0
 month-labels | Array | This property can be used to localize the elements month labels. | [January, February, March, April, May, June, July, August, September, October, November, December]
 show-days-in-month | Number | How many day will be visible on each month, including previous and next month days | 35
