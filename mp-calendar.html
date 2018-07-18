@@ -241,7 +241,19 @@
                         * Specify the events json file
                         * ex. events-file="events.json".
                         */
-                        eventsFile: String,
+                        eventsFile: {
+                            type: String,
+                            observer: '_loadEvents'
+                        },
+
+                        /**
+                        * Specify the events object
+                        * ex. events-object='[{"title":"Meeting","content":"Skype call at 15:40","date":"2018-06-22","category":"red"}]'.
+                        */
+                        eventsObject: {
+                            type: Object,
+                            observer: '_loadEvents'
+                        },
 
                         /**
                         * Specify the color for a day that have more than 4 events.
@@ -271,9 +283,13 @@
                     }
                 }
 
-                // static get observerAttrinutes() {
-                //     return
+                // static get observers() {
+                //     return [
+                //         '_loadEvents(eventsFile)',
+                //         '_loadEvents(eventsObject)'
+                //     ]
                 // }
+
                 constructor() {
                     super();
                 }
@@ -281,14 +297,18 @@
                 ready() {
                     super.ready();
 
-                    if (this.eventsFile) {
-                        this._getJSON(this.eventsFile, (json) => {
-                            this._eventsData = json;
-                            this._initCalandar(this.showDate.month, this.showDate.year);
-                            this._checkChosen();
-                        });
-                    }
-                    else {
+                    // if (this.eventsFile) {
+                    //     this._getJSON(this.eventsFile, (json) => {
+                    //         this._eventsData = json;
+                    //         this._initCalandar(this.showDate.month, this.showDate.year);
+                    //         this._checkChosen();
+                    //     });
+                    // }
+                    // else {
+                    //     this._initCalandar(this.showDate.month, this.showDate.year);
+                    //     this._checkChosen();
+                    // }
+                    if (!this.eventsFile) {
                         this._initCalandar(this.showDate.month, this.showDate.year);
                         this._checkChosen();
                     }
@@ -609,7 +629,7 @@
                     }
                     Polymer.dom(calendarElem).appendChild(days);
 
-                    if (this.eventsFile) {
+                    if (this.eventsFile || this.eventsObject) {
                         this._findAllEvents(this._eventsData);
                     }
                 }
@@ -744,6 +764,22 @@
                         childDiv.classList.remove("mp-cld-event");
                         childDiv.classList.add("eventLeft");
                     }
+                }
+
+                _loadEvents() {
+                    if (this.eventsFile) {
+                        this._getJSON(this.eventsFile, (json) => {
+                            this._eventsData = json;
+                            this._initCalandar(this.showDate.month, this.showDate.year);
+                            this._checkChosen();
+                        });
+                    }
+                    else {
+                        this._eventsData = this.eventsObject;
+                        this._initCalandar(this.showDate.month, this.showDate.year);
+                        this._checkChosen();
+                    }
+
                 }
 
                 _lightBlueTheme() {
