@@ -141,6 +141,13 @@ show-days-in-month | Number | How many day will be visible on each month, includ
 ### Icons
 [Designed by Designerz Base](https://www.iconfinder.com/Designerzbase)
 
+
+### Big Thanks
+
+Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs][homepage]
+
+[homepage]: https://saucelabs.com
+
 ## License
 
 MIT License
