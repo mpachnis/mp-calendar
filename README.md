@@ -100,6 +100,7 @@ disabled-days | Object | Disable week days. Set the disabled days. This will rea
 disabled-in-months | Array | In which month, days or weeks should be disabled. If not set the disabledDates & disabledWeeks will disabled for all months. ex. disabled-in-months="[5, 6]". The disabledDates & disabledWeeks will effective on May & June | None
 disabled-weeks | Array | Disable weeks, starting from 0 to 4 for default. If showDaysInMonth = 42 then total weeks = 5 ex. disabled-weeks="[3]". This will disable the 3th week. | None
 disable-prev-days | Boolean | Disable previous month days | false
+disable-next-days | Boolean | Disable next month days | false
 events-file | String | Specify the events json file. ex. events-file="events.json" | None
 first-day-of-week | Number | Set the first day of the week. Sunday is 0, Monday is 1 and so on | 0
 month-labels | Array | This property can be used to localize the elements month labels. | [January, February, March, April, May, June, July, August, September, October, November, December]

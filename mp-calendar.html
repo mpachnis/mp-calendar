@@ -61,11 +61,19 @@
                 },
 
                 /**
+                * Disable next month days
+                */
+                disableNextDays: {
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
                 * How many day will be visible on each month, including previous and next month days
                 */
                 showDaysInMonth: {
                     type: Number,
-                    value: 35
+                    value: 42
                 },
 
                 /**
@@ -319,12 +327,12 @@
 
                 if (!!newDate && !!oldDate) {
                     if (newDate.month > oldDate.month) {
-                        this.fire('nextMonth');
                         this._makeCalendar(this.showDate.year, this.showDate.month);
+                        this.fire('nextMonth');
                     }
                     if (newDate.month < oldDate.month) {
-                        this.fire('prevMonth');
                         this._makeCalendar(this.showDate.year, this.showDate.month);
+                        this.fire('prevMonth');
                     }
                 }
             },
@@ -341,8 +349,8 @@
                 }
 
                 this.chosen = "";
-                this.fire('dateSelected', this.date);
                 this._makeCalendar(this.showDate.year, this.showDate.month);
+                this.fire('currMonth', this.date);
             },
 
             // make the calendar days
