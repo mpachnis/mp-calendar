@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/mpachnis/mp-calendar.svg?branch=master)](https://travis-ci.org/mpachnis/mp-calendar) [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/mpachnis/mp-calendar)
-
 [![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/mpachnismp-calendar) [![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/mpachnismp-calendar.svg)](https://vaadin.com/directory/component/mpachnismp-calendar)
 
 ## &lt;mp-calendar&gt;
@@ -132,6 +131,7 @@ disabled-days | Object | Disable week days. Set the disabled days. This will rea
 disabled-in-months | Array | In which month, days or weeks should be disabled. If not set the disabledDates & disabledWeeks will disabled for all months. ex. disabled-in-months="[5, 6]". The disabledDates & disabledWeeks will effective on May & June | None
 disabled-weeks | Array | Disable weeks, starting from 0 to 4 for default. If showDaysInMonth = 42 then total weeks = 5 ex. disabled-weeks="[3]". This will disable the 3th week. | None
 disable-prev-days | Boolean | Disable previous month days | false
+disable-next-days | Boolean | Disable next month days | false
 events-file | String | Specify the events json file. ex. events-file="events.json" | None
 events-object | Object | Specify an object containing events. ex. events-object='[{"title":"Red style category","content":"Skype call at 15:40","date":"2018-07-20","category":"red"}]' | None
 first-day-of-week | Number | Set the first day of the week. Sunday is 0, Monday is 1 and so on | 0

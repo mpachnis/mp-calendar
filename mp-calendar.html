@@ -128,11 +128,16 @@
                         disablePrevDays: Boolean,
 
                         /**
+                        * Disable next month days
+                        */
+                        disableNextDays: Boolean,
+
+                        /**
                         * How many day will be visible on each month, including previous and next month days
                         */
                         showDaysInMonth: {
                             type: Number,
-                            value: 35
+                            value: 42
                         },
 
                         /**
@@ -297,6 +302,7 @@
                 ready() {
                     super.ready();
 
+<<<<<<< HEAD
                     // if (this.eventsFile) {
                     //     this._getJSON(this.eventsFile, (json) => {
                     //         this._eventsData = json;
@@ -309,6 +315,27 @@
                     //     this._checkChosen();
                     // }
                     if (!this.eventsFile) {
+=======
+                    var labelsList = this.dayLabels;
+
+                    if (this.firstDayOfWeek != 0) {
+                        this.dayLabels = [];
+
+                        for (var i = 0; i < labelsList.length; i++) {
+                            var dayName = (i + this.firstDayOfWeek) % 7;
+                            this.dayLabels.push(labelsList[dayName])
+                        }
+                    }
+
+                    if (this.eventsFile) {
+                        this._getJSON(this.eventsFile, (json) => {
+                            this._eventsData = json;
+                            this._initCalandar(this.showDate.month, this.showDate.year);
+                            this._checkChosen();
+                        });
+                    }
+                    else {
+>>>>>>> develop
                         this._initCalandar(this.showDate.month, this.showDate.year);
                         this._checkChosen();
                     }
@@ -481,6 +508,7 @@
 
                     this.chosen = "";
                     this._initCalandar(this.showDate.month, this.showDate.year);
+                    this._fire('currMonth');
                 }
 
                 _initCalandar(month, year) {
@@ -489,7 +517,7 @@
                     var thisMonth = today.getMonth() + 1;
                     var thisYear = today.getFullYear();
                     var firstDayOfMonth = new Date(year, month, 1);
-                    var dayOfMonthStart = new Date(year, month, 1).getDay(); // which day the month starts (0 - 6)
+                    var dayOfMonthStart = new Date(year, month, 1).getDay() == 0 ? 7 : new Date(year, month, 1).getDay(); // which day the month starts (0 - 6)
                     var calendarElem = Polymer.dom(this.$.mpCalendar);
                     var previousMonth, previousYear, nextMonth, nextYear, previousMonthDays, disDays;
 
@@ -621,7 +649,13 @@
                         }
                         else {
                             day.className += "mp-cld-day nextMonth";
-                            var number = this._dayNumber(dayOfNextMonth++, nextMonth + 1, nextYear, day);
+                            if (this.disableNextDays) {
+                                day.innerHTML += "&nbsp;";
+                                day.className += " disabled";
+                            }
+                            else {
+                                var number = this._dayNumber(dayOfNextMonth++, nextMonth + 1, nextYear, day);
+                            }
                         }
 
                         Polymer.dom(days).appendChild(week);
