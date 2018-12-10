@@ -514,7 +514,14 @@
                     }
                     else {
                         day.className += "mp-cld-day nextMonth";
-                        var number = self._dayNumber(dayOfNextMonth++, nextMonth + 1, nextYear, day);
+
+                        if (self.disableNextDays) {
+                            day.innerHTML += "&nbsp;";
+                            day.className += " disabled";
+                        }
+                        else {
+                            var number = self._dayNumber(dayOfNextMonth++, nextMonth + 1, nextYear, day);
+                        }
                     }
 
                     Polymer.dom(days).appendChild(week);
