@@ -302,17 +302,6 @@
                 ready() {
                     super.ready();
 
-                    var labelsList = this.dayLabels;
-
-                    if (this.firstDayOfWeek != 0) {
-                        this.dayLabels = [];
-
-                        for (var i = 0; i < labelsList.length; i++) {
-                            var dayName = (i + this.firstDayOfWeek) % 7;
-                            this.dayLabels.push(labelsList[dayName])
-                        }
-                    }
-
                     if (this.eventsFile) {
                         this._getJSON(this.eventsFile, (json) => {
                             this._eventsData = json;
@@ -330,6 +319,17 @@
                 connectedCallback() {
                     super.connectedCallback();
                     this._addListeners();
+
+                    var labelList = JSON.parse(JSON.stringify(this.dayLabels));
+
+                    if (this.firstDayOfWeek != 0) {
+                        this.dayLabels = [];
+
+                        for (var i = 0; i < labelList.length; i++) {
+                            var dayName = (i + this.firstDayOfWeek) % 7;
+                            this.dayLabels.push(labelList[dayName])
+                        }
+                    }
                 }
 
                 disconnectedCallback() {
@@ -679,7 +679,7 @@
                     var monthDays = this._numberOfDays(month, year);
 
                     for (var i = 0; i <= monthDays; i++) {
-                        var date = new Date(year, month, i, 0)
+                        var date = new Date(year, month, i, 0);
                         if (date.getDay() == day) {
                             disDays.push(date);
                         }
