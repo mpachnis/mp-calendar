@@ -4,7 +4,7 @@
 
 <!--
 
-    `mp-calendar` is a web components providing calendar date functionality build with Polymer 2.0.
+    `mp-calendar` it's a web components providing calendar date functionality, events support build with Polymer 2.0.
 
     ### Example
 
@@ -17,51 +17,49 @@
                      events-data="events.json">
         </mp-calendar>
 
-
     ### Properties
 
-        Property | Type | Description | Default
-        -------- | ----------- | ----------- | -----------
-        chosen | String | selected day, format set to 'YYYY-MM-DD' | None
-        date | Object | The currently selected date. | {"month": NaN, "day": null, "date": d}
-        day-labels | Array | This property can be used to localize the elements day labels. Do not change the order | Default: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
-        disabled-dates | Array | Disable week days. Set the disabled dates. ex. disabled-dates="[4, 10, 12, 19, 30]" | None
-        disabled-days | Object | Disable week days. Set the disabled days. This will read the days from dayLabels. If you use custom dayLabels use the same values here. ex. if dayLabels default then disabled-days='["Monday", "Thursday"]'. if dayLabels custom then => day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]' disabled-days='["Mo", "Th"]'. | None
-        disabled-in-months | Array | In which month, days or weeks should be disabled. If not set the disabledDates & disabledWeeks will disabled for all months. ex. disabled-in-months="[5, 6]". The disabledDates & disabledWeeks will effective on May & June | None
-        disabled-weeks | Array | Disable weeks, starting from 0 to 4 for default. If showDaysInMonth = 42 then total weeks = 5 ex. disabled-weeks="[3]". This will disable the 3th week. | None
-        disable-prev-days | Boolean | Disable previous month days | false
-        event-day-color | String | Border color for the day that have more than 3 events, values can set to name, rgb or hex | #b56ce2
-        events-file | String | Specify the events json file. ex. events-data="events.json" | None
-        first-day-of-week | Number | Set the first day of the week. Sunday is 0, Monday is 1 and so on | 0
-        month-labels | Array | This property can be used to localize the elements month labels. | [January, February, March, April, May, June, July, August, September, October, November, December]
-        show-days-in-month | Number | How many day will be visible on each month, including previous and next month days | 35
-        theme | String | Specify the calendar theme
+        Property            | Type      | Default                                   | Description
+        ------------------- | --------- | ------------------------------------------| -----------
+        chosen              | String    | None                                      | selected day, format set to 'YYYY-MM-DD'.
+        date                | Object    | {"month": NaN, "day": null, "date": d}    | The currently selected date.
+        day-labels          | Array     | Full name days of the Week                | This property can be used to localize the elements day labels. Do not change the order.
+        disabled-dates      | Array     | None                                      | Disable week days. Set the disabled dates. ex. disabled-dates="[4, 10, 12, 19, 30]"
+        disabled-days       | Object    | None                                      | Disable week days. Set the disabled days. This will read the days from dayLabels. If you use custom dayLabels use the same values here. ex. if dayLabels default then disabled-days='["Monday", "Thursday"]'. if dayLabels custom then => day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]' disabled-days='["Mo", "Th"]'.
+        disabled-in-months  | Array     | None                                      | In which month, days or weeks should be disabled. If not set the disabledDates & disabledWeeks will disabled for all months. ex. disabled-in-months="[5, 6]". The disabledDates & disabledWeeks will effective on May & June.
+        disabled-weeks      | Array     | None                                      | Disable weeks, starting from 0 to 4 for default. If showDaysInMonth = 42 then total weeks = 5 ex. disabled-weeks="[3]". This will disable the 3th week.
+        disable-prev-days   | Boolean   | false                                     | Disable previous month days
+        event-day-color     | String    | #b56ce2                                   | Border color for the day that have more than 3 events, values can set to name, rgb or hex.
+        events-file         | String    | None                                      | Specify the events json file. ex. events-data="events.json".
+        first-day-of-week   | Number    | 0                                         | Set the first day of the week. Sunday is 0, Monday is 1 and so on.
+        month-labels        | Array     | Full month names                          | This property can be used to localize the elements month labels.
+        show-days-in-month  | Number    | 35                                        | How many day will be visible on each month, including previous and next month days.
+        theme               | String    | Specify the calendar theme
 
     ### Styling
 
-        Property | Description
-        -------- | -----------
-        --main-bg | Calendar's main background color
-        --header-bg | Calendar's header background color
-        --main-header-color | Calendar's header color
-        --header-icon-bg | Calendar's icons background
-        --header-icon-opacity | header's icon opacity on hover event
-        --labels-color | The color of the days
-        --border-width | Calendar's border width
-        --border-right-width | Calendar's right border (if you set it to 0 then the dates will have top and bottom border)
-        --border-color | Calendar's border color
-        --prev-days-bg | Calendar's previous month dates background color
-        --prev-days-color | Calendar's previous month dates color
-        --curr-days-bg | Calendar's current month dates background
-        --curr-days-color | Calendar's current month dates color
-        --next-days-bg | Calendar's next month dates background
-        --next-days-color | Calendar's next month dates color
-        --disabled-color | Calendar's disabled dates color
-        --disabled-text-shadow | Calendar's disabled dates text shadow effect
-        --selected-day-bg | Calendar's selected day background color
+        Property                | Description
+        ----------------------- | -----------
+        --main-bg               | Calendar's main background color
+        --header-bg             | Calendar's header background color
+        --main-header-color     | Calendar's header color
+        --header-icon-bg        | Calendar's icons background
+        --header-icon-opacity   | header's icon opacity on hover event
+        --labels-color          | The color of the days
+        --border-width          | Calendar's border width
+        --border-right-width    | Calendar's right border (if you set it to 0 then the dates will have top and bottom border)
+        --border-color          | Calendar's border color
+        --prev-days-bg          | Calendar's previous month dates background color
+        --prev-days-color       | Calendar's previous month dates color
+        --curr-days-bg          | Calendar's current month dates background
+        --curr-days-color       | Calendar's current month dates color
+        --next-days-bg          | Calendar's next month dates background
+        --next-days-color       | Calendar's next month dates color
+        --disabled-color        | Calendar's disabled dates color
+        --disabled-text-shadow  | Calendar's disabled dates text shadow effect
+        --selected-day-bg       | Calendar's selected day background color
         --today-boxshadow-color | Calendar's current date shadow style, it's adding a small border style effect
         --selected-day-hover-bg | Calendar's selected day background color on hover
-
 
     @demo demo/index.html
 -->
@@ -82,7 +80,19 @@
                     </div>
 
                     <div id="currentMonth">
-                        <span class="currentMonthDate">{{currentMonth}} {{showDate.year}}</span>
+                        <span class="currentMonthDate">
+                            <select id="montSelection" value="{{monthValue::change}}" title="Click to change month">
+                                <template is="dom-repeat" items="[[monthLabels]]" as="month">
+                                    <option value="[[index]]" >[[month]]</option>
+                                </template>
+                            </select>
+
+                            <select id="yearSelection" value="{{yearValue::change}}" title="Click to change year">
+                                <template is="dom-repeat" items="[[yearList]]" as="year">
+                                    <option value="[[year]]" >[[year]]</option>
+                                </template>
+                            </select>
+                        </span>
                         <span class="todayDate" on-click="goToCurrentDate" title="Go to current date">
                             <div class="show-inner-date">{{calendarDay}}</div>
                             <svg class="calendar-icon-todayDay" viewBox="0 0 1792 1792" width="28px" height="28px">
@@ -100,7 +110,7 @@
             </div>
             <div id="mpCalendar">
                 <div class="mp-cld-labels">
-                    <dom-repeat items=[[dayLabels]]>
+                    <dom-repeat items="[[dayLabels]]">
                         <template>
                             <span class="mp-cld-label">[[item]]</span>
                         </template>
@@ -137,7 +147,7 @@
                         */
                         showDaysInMonth: {
                             type: Number,
-                            value: 42
+                            value: 35
                         },
 
                         /**
@@ -234,8 +244,9 @@
                         },
 
                         /**
-                        * In which month, days or weeks should be disabled. If not set the disabledDates & disabledWeeks will disabled for all months.
-                        * ex. disabled-in-months="[5, 6]". The disabledDates & disabledWeeks will effective on May & June
+                        * Related to disabled-dates & disabled-weeks.
+                        * In which months, days or weeks will be disabled.
+                        * ex. disabled-in-months="[5, 6]". The disabled-dates & disabled-weeks will be disabled on May & June
                         */
                         disabledInMonths: {
                             type: Array,
@@ -243,7 +254,7 @@
                         },
 
                         /**
-                        * Specify the events json file
+                        * Set a json file that includes the events
                         * ex. events-file="events.json".
                         */
                         eventsFile: {
@@ -252,7 +263,7 @@
                         },
 
                         /**
-                        * Specify the events object
+                        * Set an event object
                         * ex. events-object='[{"title":"Meeting","content":"Skype call at 15:40","date":"2018-06-22","category":"red"}]'.
                         */
                         eventsObject: {
@@ -284,19 +295,67 @@
                         theme: {
                             type: String,
                             value: ""
+                        },
+
+                        minYear: {
+                            type: Number,
+                            value: 5
+                        },
+
+                        maxYear: {
+                            type: Number,
+                            value: 5
+                        },
+
+                        monthValue: {
+                            type: String,
+                            observer: 'setMonth'
+                        },
+
+                        yearValue: {
+                            type: String,
+                            observer: 'setYear'
                         }
                     }
                 }
 
-                // static get observers() {
-                //     return [
-                //         '_loadEvents(eventsFile)',
-                //         '_loadEvents(eventsObject)'
-                //     ]
-                // }
-
                 constructor() {
                     super();
+                }
+
+                connectedCallback() {
+                    super.connectedCallback();
+                    this._addListeners();
+
+                    var labelList = JSON.parse(JSON.stringify(this.dayLabels));
+
+                    if (this.firstDayOfWeek != 0) {
+                        this.dayLabels = [];
+
+                        for (var i = 0; i < labelList.length; i++) {
+                            var dayName = (i + this.firstDayOfWeek) % 7;
+                            this.dayLabels.push(labelList[dayName])
+                        }
+                    }
+
+                    this.yearList = [];
+
+                    var d = new Date();
+                    var minYear = d.getFullYear() - this.minYear;
+                    var maxYear = d.getFullYear() + this.maxYear;
+
+                    for (minYear; minYear <= maxYear; minYear++) {
+                        this.yearList.push(minYear);
+                    }
+
+                    Polymer.RenderStatus.afterNextRender(this, () => {
+                        this.$.montSelection.value = this.showDate.month;
+                        this.$.yearSelection.value = this.showDate.year;
+                    });
+                }
+
+                disconnectedCallback() {
+                    this._removeListeners();
                 }
 
                 ready() {
@@ -314,26 +373,6 @@
                         this._checkChosen();
                     }
                     this._checkTheme();
-                }
-
-                connectedCallback() {
-                    super.connectedCallback();
-                    this._addListeners();
-
-                    var labelList = JSON.parse(JSON.stringify(this.dayLabels));
-
-                    if (this.firstDayOfWeek != 0) {
-                        this.dayLabels = [];
-
-                        for (var i = 0; i < labelList.length; i++) {
-                            var dayName = (i + this.firstDayOfWeek) % 7;
-                            this.dayLabels.push(labelList[dayName])
-                        }
-                    }
-                }
-
-                disconnectedCallback() {
-                    this._removeListeners();
                 }
 
                 _addListeners() {
@@ -429,6 +468,8 @@
 
                     this.currentMonth = this.monthLabels[this.showDate.month];
                     this._initCalandar(this.showDate.month, this.showDate.year);
+                    this.$.montSelection.value = this.showDate.month;
+                    this.$.yearSelection.value = this.showDate.year;
                     this._fire('prevMonth');
                 }
 
@@ -441,7 +482,49 @@
 
                     this.currentMonth = this.monthLabels[this.showDate.month];
                     this._initCalandar(this.showDate.month, this.showDate.year);
+                    this.$.montSelection.value = this.showDate.month;
+                    this.$.yearSelection.value = this.showDate.year;
                     this._fire('nextMonth');
+                }
+
+                setMonth(month) {
+                    var date = new Date(this.showDate.year, month);
+
+                    this.date = {
+                        date: date,
+                        day: date.getDate(),
+                        month: date.getMonth() + 1,
+                        year: date.getFullYear()
+                    }
+
+                    this.showDate = {
+                        month: month,
+                        year: this.date.year
+                    };
+
+                    this.chosen = "";
+                    this._initCalandar(this.showDate.month, this.showDate.year);
+                    this._fire('monthChanged');
+                }
+
+                setYear(year) {
+                    var date = new Date(year, this.showDate.month);
+
+                    this.date = {
+                        date: date,
+                        day: date.getDate(),
+                        month: date.getMonth() + 1,
+                        year: date.getFullYear()
+                    }
+
+                    this.showDate = {
+                        month: this.date.month,
+                        year: year
+                    };
+
+                    this.chosen = "";
+                    this._initCalandar(this.showDate.month, this.showDate.year);
+                    this._fire('monthChanged');
                 }
 
                 _fire(ev) {
@@ -479,6 +562,9 @@
                             this.dispatchEvent(new CustomEvent('prevMonth'));
                         }
                     }
+
+                    this.$.montSelection.value = this.showDate.month;
+                    this.$.yearSelection.value = this.showDate.year;
                 }
 
                 goToCurrentDate(e) {
@@ -493,6 +579,8 @@
 
                     this.chosen = "";
                     this._initCalandar(this.showDate.month, this.showDate.year);
+                    this.$.montSelection.value = this.showDate.month;
+                    this.$.yearSelection.value = this.showDate.year;
                     this._fire('currMonth');
                 }
 
@@ -539,8 +627,12 @@
                     var dayN = 1;
                     var dayOfNextMonth = 1;
                     var days = this.$.cldDays;
-
-                    for (var i = 0; i < this.showDaysInMonth; i++) {
+// debugger
+                    var showDaysInMonth = this.showDaysInMonth;
+                    if (dayOfMonthStart >= 5 && this.showDaysInMonth < 37 && currentMonthDays > 29) {
+                        showDaysInMonth = 42
+                    }
+                    for (var i = 0; i < showDaysInMonth; i++) {
                         var day = document.createElement('span');
                         // separated into weeks
                         if (i % 7 === 0) {
@@ -560,6 +652,13 @@
                                     }
                                 });
                             }
+                            // if (this.disabledWeeks != "") {
+                            //     this.disabledWeeks.forEach((disWeek) => {
+                            //         if (disWeek == i / 7) {
+                            //             week.className += " disabledWeek";
+                            //         }
+                            //     });
+                            // }
                         }
 
                         if (i < (dayOfMonthStart - this.firstDayOfWeek)) {
@@ -746,10 +845,10 @@
 
                             if (result.children.length == 0) {
                                 event += '<div class="mp-cld-event"><div class="event">'
-                                            + '<h3 class="' + item.category + '">' + item.title + ''
+                                            + '<h3 class="' + item.category + '" ' + (item.color ? ('style="color:' + item.color + '"') : '') + '>' + item.title + ''
                                             + '<i>' + item.date + '</i>'
                                             + '</h3>'
-                                            + '<span class="' + item.category + '">' + item.content + '</span>'
+                                            + '<span>' + item.content + '</span>'
                                         + '</div></div>';
 
                                 Polymer.dom(result).innerHTML += event;
@@ -757,10 +856,10 @@
                             else {
                                 for (var i = 0; i < result.children.length; i++) {
                                     event += '<span class="separator"></span><div class="event">'
-                                                + '<h3 class="' + item.category + '">' + item.title + ''
+                                                + '<h3 class="' + item.category + '" ' + (item.color ? ('style="color:' + item.color + '"') : '') + '>' + item.title + ''
                                                 + '<i>' + item.date + '</i>'
                                                 + '</h3>'
-                                                + '<span class="' + item.category + '">' + item.content + '</span>'
+                                                + '<span>' + item.content + '</span>'
                                             + '</div>';
 
                                     Polymer.dom(result.children[i]).innerHTML += event;

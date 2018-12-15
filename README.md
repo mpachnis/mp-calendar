@@ -2,7 +2,7 @@
 [![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/mpachnismp-calendar) [![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/mpachnismp-calendar.svg)](https://vaadin.com/directory/component/mpachnismp-calendar)
 
 ## &lt;mp-calendar&gt;
-
+It's a web components, providing calendar date functionality and events support, build with Polymer 2.0. For quick navigation between month and year, you can select one from the list.
 
 ## Demo
 
@@ -43,20 +43,36 @@ $ bower install --save mp-calendar
 -->
 
 ```html
-
 <mp-calendar day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]'
              disable-prev-days
-             show-days-in-month=42
              disabled-dates="[8, 17, 29]"
              disabled-days='["Tu"]'
-             disabled-weeks="[5]"
              events-file=demo/events.json>
 </mp-calendar>
-
 ```
 
-### Themes
-There are 2 additional theme to chose, a dark and a light-blue.
+## Properties
+
+Property | Type        | Description | Default
+-------- | ----------- | ----------- | -----------
+day-labels | Array | This property can be used to localize the elements day labels. Do not change the order | Default: Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday
+month-labels | Array | This property can be used to localize the elements month labels. | January, February, March, April, May, June, July, August, September, October, November, December
+disabled-dates | Array | Disable current month's weekdays. Set the disabled dates. ex. `disabled-dates="[4, 10, 12, 19, 30]"`| None
+disabled-days | Object | Disable week days. Set the disabled days. This will read the days from dayLabels. If you use custom day labels, same values must be applyied here. ex. For default values: `disabled-days='["Monday", "Thursday"]'`. For custom labes: `day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]'` then `disabled-days='["Mo", "Th"]'`. | None
+disabled-in-months | Array | Related to `disabled-dates` & `disabled-weeks`. In which months, the disabled days or weeks will be disabled. ex. `disabled-in-months="[5, 6]"`. The `disabled-dates` & `disabled-weeks` will effective on May & June. | All months
+disabled-weeks | Array | Disable month's weeks, starting from 0 to 4 for default. If `show-days-in-month=42` then total weeks are from 0 to 5 | None
+disable-prev-days | Boolean | Disable previous month days. | false
+disable-next-days | Boolean | Disable next month days. | false
+events-file | String | Set a json file that includes the events. ex. `events-file="events.json"` | None
+events-object | Object | Set an object containing events. ex. `events-object='[{"title":"Red style category","content":"Skype call at 15:40","date":"2018-07-20","category":"red", "color": "#000"}]'` | None
+first-day-of-week | Number | Set the first day of the week. Sunday is 0, Monday is 1 and so on | 0
+show-days-in-month | Number | How many day will be visible on each month, including previous and next month days. | 35
+min-year | Number | Set the min year list. | 5
+max-year | Number | Set the max year list. | 5
+event-day-color | String | Event border color for a day with more than 3 events. Color can be set as rgb(a), hex or hsl(a) | `#b56ce2`
+
+## Themes
+There are 2 additional theme to chose, `dark` and `light-blue`.
 ![dark style](demo/dark-theme.png) ![light blue style](demo/light-blue.png)
 
 You can also customize the calendar your self with the following properties:
@@ -86,11 +102,11 @@ Property | Description
 
 
 ### Events
-There are 4 categories: red, blue, green, orange.
+There are 4 ready to use categories: red, blue, green and orange.
 Each day which have an event will also have a color line at the right side, based on the category.
-If a day have 3 or more events than the display color will be a dark grey.
+If a day have 4 or more events than the display color will get the `event-day-color`.
 Date format YYYY-MM-DD. If you change the json file on `events-file` or an event on `events-object`, calendar will automatically show the changes.
-json example:
+Example:
 
 ```html
 [
@@ -98,7 +114,8 @@ json example:
         "title": "Red style category",
         "content": "Skype call at 15:40",
         "date": "2017-06-02",
-        "category": "red"
+        "category": "red",
+        "color": "#000"
     },
     {
         "title": "orange style category",
@@ -121,29 +138,11 @@ json example:
 ]
 ```
 
-### Properties
-
-Property | Type | Description | Default
--------- | ----------- | ----------- | -----------
-day-labels | Array | This property can be used to localize the elements day labels. Do not change the order | Default: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
-disabled-dates | Array | Disable week days. Set the disabled dates. ex. disabled-dates="[4, 10, 12, 19, 30]" | None
-disabled-days | Object | Disable week days. Set the disabled days. This will read the days from dayLabels. If you use custom dayLabels use the same values here. ex. if dayLabels default then disabled-days='["Monday", "Thursday"]'. if dayLabels custom then => day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]' disabled-days='["Mo", "Th"]'. | None
-disabled-in-months | Array | In which month, days or weeks should be disabled. If not set the disabledDates & disabledWeeks will disabled for all months. ex. disabled-in-months="[5, 6]". The disabledDates & disabledWeeks will effective on May & June | None
-disabled-weeks | Array | Disable weeks, starting from 0 to 4 for default. If showDaysInMonth = 42 then total weeks = 5 ex. disabled-weeks="[3]". This will disable the 3th week. | None
-disable-prev-days | Boolean | Disable previous month days | false
-disable-next-days | Boolean | Disable next month days | false
-events-file | String | Specify the events json file. ex. events-file="events.json" | None
-events-object | Object | Specify an object containing events. ex. events-object='[{"title":"Red style category","content":"Skype call at 15:40","date":"2018-07-20","category":"red"}]' | None
-first-day-of-week | Number | Set the first day of the week. Sunday is 0, Monday is 1 and so on | 0
-month-labels | Array | This property can be used to localize the elements month labels. | [January, February, March, April, May, June, July, August, September, October, November, December]
-show-days-in-month | Number | How many day will be visible on each month, including previous and next month days | 35
-
-
-### Icons
+## Icons
 [Designed by Designerz Base](https://www.iconfinder.com/Designerzbase)
 
 
-### Big Thanks
+## Big Thanks
 
 Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs](https://saucelabs.com)
 
