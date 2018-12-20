@@ -627,7 +627,7 @@
                     var dayN = 1;
                     var dayOfNextMonth = 1;
                     var days = this.$.cldDays;
-// debugger
+
                     var showDaysInMonth = this.showDaysInMonth;
                     if (dayOfMonthStart >= 5 && this.showDaysInMonth < 37 && currentMonthDays > 29) {
                         showDaysInMonth = 42
@@ -652,13 +652,6 @@
                                     }
                                 });
                             }
-                            // if (this.disabledWeeks != "") {
-                            //     this.disabledWeeks.forEach((disWeek) => {
-                            //         if (disWeek == i / 7) {
-                            //             week.className += " disabledWeek";
-                            //         }
-                            //     });
-                            // }
                         }
 
                         if (i < (dayOfMonthStart - this.firstDayOfWeek)) {
