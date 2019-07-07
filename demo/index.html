@@ -5,8 +5,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <script src="../../webcomponentsjs/webcomponents.js"></script>
-        <link rel="import" href="../../mp-calendar/mp-calendar.html">
+        <script type="module">
+            import '../../@webcomponentsjs/webcomponents.js';
+        </script>
+        <script type="module">
+            import '../mp-calendar.js';
+        </script>
         <style>
             .card {
                 margin: 24px 10px;

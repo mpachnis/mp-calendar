@@ -2,7 +2,8 @@
 [![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/mpachnismp-calendar) [![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/mpachnismp-calendar.svg)](https://vaadin.com/directory/component/mpachnismp-calendar)
 
 ## &lt;mp-calendar&gt;
-It's a web components, providing calendar date functionality and events support, build with Polymer 2.0. For quick navigation between month and year, you can select one from the list.
+It's a web components, providing calendar date functionality and events support, build with Polymer 3.0. For quick navigation between month and year, you can select one from the list.
+You can get previous version for polymer 1.x or 2.x by chosing different branch.
 
 ## Demo
 
@@ -12,30 +13,32 @@ It's a web components, providing calendar date functionality and events support,
 ## Install the component using [Bower](http://bower.io/):
 
 ```bash
-$ bower install --save mp-calendar
+npm install --save mp-calendar
 ```
 
 ## Usage
 
-1. Import Web Components' polyfill:
+1. Import files
 
-```html
-<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+```js
+import '../mp-calendar/mp-calendar.js'
 ```
 
-2. Import Custom Element:
-
 ```html
-<link rel="import" href="bower_components/mp-calendar/mp-calendar.html">
+<script type="module">
+    import '../mp-calendar/mp-calendar.js';
+</script>
 ```
 
-3. Start using it!
+2. Add the element
 <!--
 ```
 <custom-element-demo>
     <template>
         <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-        <link rel="import" href="mp-calendar.html">
+        <script type="module">
+            import '../mp-calendar/mp-calendar.js';
+        </script>
         <next-code-block></next-code-block>
     </template>
 </custom-element-demo>

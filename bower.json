@@ -1,40 +1,5 @@
 {
     "name": "mp-calendar",
-    "description": "It's a web components, providing calendar date functionality and events support, build with Polymer 2.0",
-    "version": "2.2.0",
-    "homepage": "http://minas.pachnis.com",
-    "authors": [
-        "Minas Pachnis <minas@bugeffect.com>"
-    ],
-    "keywords": [
-        "calendar",
-        "datepicker",
-        "polymer",
-        "web-components",
-        "mpachnis",
-        "polymer 2.0"
-    ],
     "license": "MIT",
-    "main": "mp-calendar.html",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/mpachnis/mp-calendar.git"
-    },
-    "dependencies": {
-        "polymer": "^2.0.0"
-    },
-    "devDependencies": {
-        "web-component-tester": "^6.0.0",
-        "iron-component-page": "^v2.0.0",
-        "iron-demo-helpers": "^v2.0.0",
-        "iron-test-helpers": "^v2.0.0",
-        "test-fixture": "^3.0.0-rc.1",
-        "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
-    },
-    "ignore": [
-        "node_modules",
-        "bower_components",
-        "package.json",
-        ".gitignore"
-    ]
+    "version": "3.0"
 }
