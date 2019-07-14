@@ -6,9 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script type="module">
-            import '../../@webcomponentsjs/webcomponents.js';
-        </script>
-        <script type="module">
+            import '@polymer/iron-demo-helpers/demo-snippet.js';
             import '../mp-calendar.js';
         </script>
         <style>
@@ -25,14 +23,18 @@
 
         <body>
             <div class="card">
-                <mp-calendar day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]'
-                             disable-prev-days
-                             show-days-in-month=42
-                             disabled-dates="[8, 17, 29]"
-                             disabled-weeks="[5]"
-                             disabled-days='["Tu"]'
-                             events-file="events.json">
-                </mp-calendar>
+                <demo-snippet>
+                    <template>
+                        <mp-calendar day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]'
+                                    disable-prev-days
+                                    show-days-in-month=42
+                                    disabled-dates="[8, 17, 29]"
+                                    disabled-weeks="[5]"
+                                    disabled-days='["Tu"]'
+                                    events-file="events.json">
+                        </mp-calendar>
+                    </template>
+                </demo-snippet>
             </div>
         </body>
     </html>

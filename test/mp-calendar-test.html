@@ -2,23 +2,15 @@
 
 <html>
 <head>
-    <title>rollout-calc test</title>
+    <title>mp-calendar</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
-
-    <link rel="import" href="../mp-calendar.html">
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
 </head>
 <body>
-
-    <test-fixture id="mpCalendar">
-        <template>
-            <mp-calendar></mp-calendar>
-        </template>
-    </test-fixture>
-
-    <script>
+    <script type="module">
+        import '../mp-calendar.js';
         suite('mp-calendar', () => {
             var mpCalendar;
 
