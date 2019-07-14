@@ -2,11 +2,10 @@
     "description": "It's a web components, providing calendar date functionality and events support, build with Polymer 3.0",
     "keywords": [
         "calendar",
-        "datepicker",
+        "events",
         "polymer",
         "web-components",
-        "mpachnis",
-        "polymer 2.0"
+        "mpachnis"
     ],
     "repository": {
         "type": "git",
@@ -14,7 +13,7 @@
     },
     "homepage": "https://github.com/mpachnis/mp-calendar",
     "name": "mp-calendar",
-    "version": "2.2.0",
+    "version": "3.0.0",
     "author": "Minas Pachnis <minas@bugeffect.com>",
     "license": "MIT",
     "bugs": {
@@ -24,24 +23,17 @@
         "access": "public"
     },
     "devDependencies": {
-        "bower": "latest",
-        "polymer-cli": "^1.2.0",
-        "wct-browser-legacy": "^0.0.1-pre.11",
+        "polymer-cli": "^1.9.8",
+        "wct-browser-legacy": "^1.0.1",
         "@polymer/iron-component-page": "^3.0.0-pre.18",
-        "@polymer/iron-demo-helpers": "^3.0.0-pre.18",
-        "@polymer/iron-test-helpers": "^3.0.0-pre.18",
+        "@polymer/iron-demo-helpers": "^3.0.1",
+        "@polymer/iron-test-helpers": "^3.0.0-pre.26",
         "@polymer/test-fixture": "^3.0.0-pre.18",
         "@webcomponents/webcomponentsjs": "^2.0.0"
     },
     "scripts": {
+        "serve": "polymer serve",
         "test": "wct"
-    },
-    "resolutions": {
-        "inherits": "2.0.3",
-        "samsam": "1.1.3",
-        "supports-color": "3.1.2",
-        "type-detect": "1.0.0",
-        "@webcomponents/webcomponentsjs": "2.0.0-beta.2"
     },
     "main": "mp-calendar.js",
     "dependencies": {
