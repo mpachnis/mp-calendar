@@ -1,10 +1,11 @@
 {
-    "description": "It's a web components, providing calendar date functionality and events support, build with Polymer 3.0",
+    "description": "mp calendar is a web components, providing calendar date functionality and events support, build with Polymer 3.0",
     "keywords": [
         "calendar",
         "events",
         "polymer",
         "web-components",
+        "web-component",
         "mpachnis"
     ],
     "repository": {
@@ -12,7 +13,7 @@
         "url": "https://github.com/mpachnis/mp-calendar.git"
     },
     "homepage": "https://github.com/mpachnis/mp-calendar",
-    "name": "mp-calendar",
+    "name": "@mp/mp-calendar",
     "version": "3.0.0",
     "author": "Minas Pachnis <minas@bugeffect.com>",
     "license": "MIT",
@@ -32,8 +33,7 @@
         "@webcomponents/webcomponentsjs": "^2.2.0"
     },
     "scripts": {
-        "serve": "polymer serve",
-        "test": "wct"
+        "serve": "polymer serve"
     },
     "main": "mp-calendar.js",
     "dependencies": {
