@@ -1,21 +1,24 @@
 language: node_js
-sudo: required
-dist: trusty
-node_js: stable
+node_js: node
+sudo: 'false'
+before_script:
+  - npm install -g polymer-cli
+  - git checkout package-lock.json
+  - >-
+    npm run format && git diff --exit-code || (echo -e '\n\033[31mERROR:\033[0m
+    Project is not formatted. Please run "npm run format".' && false)
 addons:
   firefox: latest
-  sauce_connect: true
-  apt:
-    sources:
-    - google-chrome
-    packages:
-    - google-chrome-stable
-before_script:
-- npm install -g bower polylint web-component-tester
-- bower install
+  chrome: stable
 script:
-- xvfb-run wct --skip-plugin sauce
-- if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then wct --skip-plugin local; fi
+  - xvfb-run polymer test --module-resolution=node --npm
+  - >-
+    if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then polymer test
+    --module-resolution=node --npm -s 'default'; fi
+dist: trusty
+cache:
+  directories:
+    - node_modules
 env:
   global:
   - secure: L2zetBapHkMUwpP5clTd+r49Uvp67sqV6oXHTmtdBTn6XC54O2WgFBWxwsPfYksoc+5qfblz6wLQVqDL0Ht3wXVsLVPugX0pbcrisHEBgT1YafWh3lBePvud8ivlu59uh45VcgVaASmWe/TBUSSHLQloOsdM2ezQM7iEca1KIi6bmPSI6L0blSGEiEBVnq8OkPsmz0v+9uGaFXeWLdcyhNZ3lShlP4lMip4EZ9JjmWTa45whstGxi/weujZBV0FZGqVg3Aa033vpFIpX8QJi6ZWFGRKuxcB/1eI/8GV3KGtMrxwX87SK/6ILN3UWLATv4wQnxa0TIJixHhWRif6TFs922OUT6EOFuHOdJ3Ea7zckYdC70THmxFDjdiV3cUTlh3FuBwhVfsHJT3mrYnyjB9T9WHCgiY9IWGX9oQ4p7ssjq21v8hOTPyXgf84C1vvPXHLmoTE0XJpxRJrRBjq6ykXBo8UoSpIRnKaPQvjJh5xEGCO2pVvBIFFHGbTmnDk17M8lb6DIewCY+LcXD+fJz3OLcxuGdcUVy1lNdYPlSxYiztMzSt7DX9UvYt1D/mYHafaWOWHsaSf9tDoeCqahXFtmZLNI3fKt+cyrQuNSpsLqE6GWymLOWGRvUT0/6ZzAA3GPjzI7/uPCPj6yMEj3cToZBfuY8RvD5+oLRVhKLyI=
