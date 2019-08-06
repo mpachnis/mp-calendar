@@ -21,12 +21,12 @@ npm install --save @mpachnis/mp-calendar
 1. Import files
 
 ```js
-import '@mpachnis//mp-calendar/mp-calendar.js'
+import '@mpachnis/mp-calendar/mp-calendar.js'
 ```
 
 ```html
 <script type="module">
-    import '@mpachnis//mp-calendar/mp-calendar.js';
+    import '@mpachnis/mp-calendar/mp-calendar.js';
 </script>
 ```
 
