@@ -13,7 +13,7 @@ You can get previous version for polymer 1.x or 2.x by chosing different branch.
 ## Install the component using [Bower](http://bower.io/):
 
 ```bash
-npm install --save mp-calendar
+npm install --save @mpachnis/mp-calendar
 ```
 
 ## Usage
@@ -21,12 +21,12 @@ npm install --save mp-calendar
 1. Import files
 
 ```js
-import '../mp-calendar/mp-calendar.js'
+import '@mpachnis//mp-calendar/mp-calendar.js'
 ```
 
 ```html
 <script type="module">
-    import '../mp-calendar/mp-calendar.js';
+    import '@mpachnis//mp-calendar/mp-calendar.js';
 </script>
 ```
 
@@ -35,9 +35,8 @@ import '../mp-calendar/mp-calendar.js'
 ```
 <custom-element-demo>
     <template>
-        <script src="../webcomponentsjs/webcomponents-lite.js"></script>
         <script type="module">
-            import '../mp-calendar/mp-calendar.js';
+            import '@mpachnis/mp-calendar/mp-calendar.js';
         </script>
         <next-code-block></next-code-block>
     </template>
