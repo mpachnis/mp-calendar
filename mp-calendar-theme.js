@@ -107,7 +107,7 @@ $_documentContainer.innerHTML = `<dom-module id="mp-calendar-theme">
                 overflow: hidden;
                 background: none;
                 border: none;
-                color: #757575;
+                color: var(--header-icon-bg);
                 font-size: 17px;
                 font-family: "Helvetica Neue";
                 font-weight: bold;

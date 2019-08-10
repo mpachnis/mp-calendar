@@ -4,38 +4,43 @@
         <title>mp calendar</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://unpkg.com/@webcomponents/webcomponentsjs@^2.0.0/webcomponents-loader.js"></script>
 
         <script type="module">
             import '@polymer/iron-demo-helpers/demo-snippet.js';
+            import '@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
+            import { html } from '@polymer/polymer/lib/utils/html-tag.js';
             import '../mp-calendar.js';
-        </script>
-        <style>
-            .card {
-                margin: 24px 10px;
-                padding: 16px;
-                color: #757575;
-                border-radius: 5px;
-                background-color: #fff;
-                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-            }
-        </style>
-        </head>
 
-        <body>
-            <div class="card">
-                <demo-snippet>
-                    <template>
-                        <mp-calendar day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]'
-                                    disable-prev-days
-                                    show-days-in-month=42
-                                    disabled-dates="[8, 17, 29]"
-                                    disabled-weeks="[5]"
-                                    disabled-days='["Tu"]'
-                                    events-file="events.json">
-                        </mp-calendar>
-                    </template>
-                </demo-snippet>
-            </div>
-        </body>
-    </html>
+            const template = html`
+                <custom-styles>
+                    <style include="demo-pages-shared-styles">
+                        .card {
+                            max-width: 800px;
+                            margin: 24px auto;
+                        }
+                    </style>
+                </custom-style>
+            `;
+            document.body.appendChild(template.content);
+        </script>
+    </head>
+
+    <body>
+        <div class="card">
+            <demo-snippet>
+                <template>
+                    <mp-calendar disable-prev-days
+                                show-days-in-month=42
+                                disabled-dates="[8, 17, 29]"
+                                disabled-weeks="[5]"
+                                disabled-days='["Tu"]'
+                                chosen="2017-07-12"
+                                theme="light-blue"
+                                events-file="events.json">
+                    </mp-calendar>
+                </template>
+            </demo-snippet>
+        </div>
+    </body>
 </html>

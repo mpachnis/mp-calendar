@@ -3,14 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-
-        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-        <script src="../../web-component-tester/browser.js"></script>
+        <title>mp-calendar tests</title>
+        <script src="../node_modules/wct-browser-legacy/browser.js"></script>
     </head>
     <body>
     <script>
         WCT.loadSuites([
-            'mp-calendar-test.html',
+            'mp-calendar.html?wc-shadydom=true&wc-ce=true',
+            'mp-calendar.html'
         ]);
       </script>
   </body>

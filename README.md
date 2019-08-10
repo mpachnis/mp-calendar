@@ -10,47 +10,42 @@ You can get previous version for polymer 1.x or 2.x by chosing different branch.
 [mp-calendar docs & demo](https://www.webcomponents.org/element/mpachnis/mp-calendar)
 
 
-## Install the component using [Bower](http://bower.io/):
+## Install:
 
 ```bash
 npm install --save @mpachnis/mp-calendar
 ```
 
-## Usage
-
-1. Import files
-
-```js
-import '@mpachnis/mp-calendar/mp-calendar.js'
-```
+## Import in a HTML file:
 
 ```html
-<script type="module">
-    import '@mpachnis/mp-calendar/mp-calendar.js';
-</script>
-```
-
-2. Add the element
-<!--
-```
-<custom-element-demo>
-    <template>
+<html>
+    <head>
         <script type="module">
             import '@mpachnis/mp-calendar/mp-calendar.js';
         </script>
-        <next-code-block></next-code-block>
-    </template>
-</custom-element-demo>
-```
--->
+    </head>
+    <body>
+        <mp-calendar></mp-caledanr>
+    </body>
+</html>
 
-```html
-<mp-calendar day-labels='["Su","Mo","Tu","We","Th","Fr","Sa"]'
-             disable-prev-days
-             disabled-dates="[8, 17, 29]"
-             disabled-days='["Tu"]'
-             events-file=demo/events.json>
-</mp-calendar>
+```
+
+## In a Polymer 3 element:
+
+```js
+import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import '@mpachnis/mp-calendar/mp-calendar.js';
+
+class CustomElement extends PolymerElement {
+    static get template() {
+        return html`
+            <mp-calendar></mp-caledanr>
+        `;
+    }
+}
+customElements.define('custom-element', CustomElement);
 ```
 
 ## Properties
@@ -74,8 +69,8 @@ max-year | Number | Set the max year list. | 5
 event-day-color | String | Event border color for a day with more than 3 events. Color can be set as rgb(a), hex or hsl(a) | `#b56ce2`
 
 ## Themes
-There are 2 additional theme to chose, `dark` and `light-blue`.
-![dark style](demo/dark-theme.png) ![light blue style](demo/light-blue.png)
+There are 2 additional theme to chose, `dark` or `light-blue`.
+![dark](demo/dark-theme.png) ![light blue](demo/light-blue.png)
 
 You can also customize the calendar your self with the following properties:
 

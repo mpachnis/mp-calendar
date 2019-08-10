@@ -392,7 +392,7 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
                 this._lightBlueTheme();
                 break;
             case 'dark':
-                this._darktTheme();
+                this._darkTheme();
                 break;
         }
     }
@@ -491,31 +491,32 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
     }
 
     setMonth(month) {
-        this._setShowDate({
-            month: month,
+        this._setShowDate = {
+            month: parseInt(month),
             year: this.showDate.year
-        });
+        };
 
         this.chosen = "";
-        this._initCalandar(parseInt(month), this.showDate.year);
+        this._initCalandar(parseInt(month), parseInt(this.$.yearSelection.value));
         this._fire('monthChanged');
     }
 
     setYear(year) {
-        this._setShowDate({
-            month: this.showDate.month,
-            year: year
-        });
+        this._setShowDate = {
+            month: this.showDate.month - 1,
+            year: parseInt(year)
+        };
 
         this.chosen = "";
-        this._initCalandar(this.showDate.month, year);
+        this._initCalandar(parseInt(this.$.montSelection.value), year);
         this._fire('monthChanged');
     }
 
-    _fire(ev) {
+    _fire(ev, el) {
         this.dispatchEvent(new CustomEvent(ev, {
             bubbles: true,
-            composed: true
+            composed: true,
+            detail: el
         }));
     }
 
@@ -540,12 +541,13 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
         if (!!newDate && !!oldDate) {
             if (newDate.date.getMonth() > oldDate.date.getMonth()) {
                 this._initCalandar(this.showDate.month, this.showDate.year);
-                this.dispatchEvent(new CustomEvent('nextMonth'));
+                this._fire('nextMonth');
             }
             if (newDate.date.getMonth() < oldDate.date.getMonth()) {
                 this._initCalandar(this.showDate.month, this.showDate.year);
-                this.dispatchEvent(new CustomEvent('prevMonth'));
+                this._fire('prevMonth');
             }
+            this._fire('dateSelected', this.date);
         }
 
         this.$.montSelection.value = this.showDate.month;
@@ -573,8 +575,6 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
         var today = new Date();
         var thisDay = today.getDate();
         var thisMonth = today.getMonth() + 1;
-        var thisYear = today.getFullYear();
-        var firstDayOfMonth = new Date(year, month, 1);
         var dayOfMonthStart = new Date(year, month, 1).getDay() == 0 ? 7 : new Date(year, month, 1).getDay(); // which day the month starts (0 - 6)
         var calendarElem = dom(this.$.mpCalendar);
         var previousMonth, previousYear, nextMonth, nextYear, previousMonthDays, disDays;
@@ -903,7 +903,7 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
         });
     }
 
-    _darktTheme() {
+    _darkTheme() {
         this.updateStyles({
             '--main-bg': '#000',
             '--header-bg': '#000',
