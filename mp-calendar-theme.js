@@ -1,7 +1,7 @@
-const $_documentContainer = document.createElement('template');
-$_documentContainer.setAttribute('style', 'display: none;');
+const mpCalendarTheme = document.createElement('template');
+mpCalendarTheme.setAttribute('style', 'display: none;');
 
-$_documentContainer.innerHTML = `<dom-module id="mp-calendar-theme">
+mpCalendarTheme.innerHTML = `<dom-module id="mp-calendar-theme">
     <template>
         <style>
             :host {
@@ -103,13 +103,13 @@ $_documentContainer.innerHTML = `<dom-module id="mp-calendar-theme">
             }
 
             /* month selection */
-            #montSelection, #yearSelection {
+            #monthSelection, #yearSelection {
                 overflow: hidden;
                 background: none;
                 border: none;
                 color: var(--header-icon-bg);
-                font-size: 17px;
-                font-family: "Helvetica Neue";
+                font-size: 15px;
+                font-family: Helvetica, "Helvetica Neue";
                 font-weight: bold;
                 text-align-last: right;
                 cursor: pointer;
@@ -122,7 +122,7 @@ $_documentContainer.innerHTML = `<dom-module id="mp-calendar-theme">
 
             }
 
-                #montSelection option, #yearSelection option {
+                #monthSelection option, #yearSelection option {
                     direction: ltr;
                 }
 
@@ -185,6 +185,7 @@ $_documentContainer.innerHTML = `<dom-module id="mp-calendar-theme">
                     font-size: 10px;
                     width: 20px;
                     height: 60%;
+                    color: var(--inner-date-color);
                     position: absolute;
                     top: 7px;
                     right: 0;
@@ -311,7 +312,7 @@ $_documentContainer.innerHTML = `<dom-module id="mp-calendar-theme">
 
             .mp-cld-day.currMonth.selected,
             .mp-cld-day.nextMonth.selected {
-                background: var(--selected-day-bg);
+                background: var(--selected-day-bg) !important;
                 color: var(--white-color);
                 position: relative;
                 cursor: pointer;
@@ -541,7 +542,6 @@ $_documentContainer.innerHTML = `<dom-module id="mp-calendar-theme">
                     display: block;
                 }
 
-
                 .mp-cld-day.prevMonth:hover .mp-cld-event,
                 .mp-cld-day.prevMonth:hover .eventLeft,
                 .mp-cld-day.currMonth:hover .mp-cld-event,
@@ -567,4 +567,4 @@ $_documentContainer.innerHTML = `<dom-module id="mp-calendar-theme">
     </template>
 </dom-module>`;
 
-document.head.appendChild($_documentContainer.content);
+document.head.appendChild(mpCalendarTheme.content);

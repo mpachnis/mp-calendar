@@ -88,7 +88,7 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
 
                         <div id="currentMonth">
                             <span class="currentMonthDate">
-                                <select id="montSelection" value="{{monthValue::change}}" title="Click to change month">
+                                <select id="monthSelection" value="{{monthValue::change}}" title="Click to change month">
                                     <template is="dom-repeat" items="[[monthLabels]]" as="month">
                                         <option value="[[index]]">[[month]]</option>
                                     </template>
@@ -100,7 +100,7 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
                                     </template>
                                 </select>
                             </span>
-                            <span class="todayDate" on-click="goToCurrentDate" title="Go to current date">
+                            <span class="todayDate" on-click="goToCurrentDate" title="Click to go on the today date">
                                 <div class="show-inner-date">{{calendarDay}}</div>
                                 <svg class="calendar-icon-todayDay" viewBox="0 0 1792 1792" width="28px" height="28px">
                                     <path d="M192 1664h1408v-1024h-1408v1024zm384-1216v-288q0-14-9-23t-23-9h-64q-14 0-23 9t-9 23v288q0 14 9 23t23 9h64q14 0 23-9t9-23zm768 0v-288q0-14-9-23t-23-9h-64q-14 0-23 9t-9 23v288q0 14 9 23t23 9h64q14 0 23-9t9-23zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z"></path>
@@ -373,7 +373,7 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
         this._checkTheme();
 
         afterNextRender(this, () => {
-            this.$.montSelection.value = this.showDate.month;
+            this.$.monthSelection.value = this.showDate.month;
             this.$.yearSelection.value = this.showDate.year;
         });
     }
@@ -393,6 +393,9 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
                 break;
             case 'dark':
                 this._darkTheme();
+                break;
+            case 'light-grey':
+                this._lighGreyTheme();
                 break;
         }
     }
@@ -471,9 +474,9 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
 
         this.currentMonth = this.monthLabels[this.showDate.month];
         this._initCalandar(this.showDate.month, this.showDate.year);
-        this.$.montSelection.value = this.showDate.month;
+        this.$.monthSelection.value = this.showDate.month;
         this.$.yearSelection.value = this.showDate.year;
-        this._fire('prevMonth');
+        this._fire('prevMonth', this.showDate);
     }
 
     nextMonthHandler() {
@@ -485,9 +488,9 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
 
         this.currentMonth = this.monthLabels[this.showDate.month];
         this._initCalandar(this.showDate.month, this.showDate.year);
-        this.$.montSelection.value = this.showDate.month;
+        this.$.monthSelection.value = this.showDate.month;
         this.$.yearSelection.value = this.showDate.year;
-        this._fire('nextMonth');
+        this._fire('nextMonth', this.showDate);
     }
 
     setMonth(month) {
@@ -498,7 +501,7 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
 
         this.chosen = "";
         this._initCalandar(parseInt(month), parseInt(this.$.yearSelection.value));
-        this._fire('monthChanged');
+        this._fire('monthChanged', this.showDate);
     }
 
     setYear(year) {
@@ -508,8 +511,8 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
         };
 
         this.chosen = "";
-        this._initCalandar(parseInt(this.$.montSelection.value), year);
-        this._fire('monthChanged');
+        this._initCalandar(parseInt(this.$.monthSelection.value), year);
+        this._fire('monthChanged', this.showDate);
     }
 
     _fire(ev, el) {
@@ -541,16 +544,16 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
         if (!!newDate && !!oldDate) {
             if (newDate.date.getMonth() > oldDate.date.getMonth()) {
                 this._initCalandar(this.showDate.month, this.showDate.year);
-                this._fire('nextMonth');
+                this._fire('nextMonth', this.showDate);
             }
             if (newDate.date.getMonth() < oldDate.date.getMonth()) {
                 this._initCalandar(this.showDate.month, this.showDate.year);
-                this._fire('prevMonth');
+                this._fire('prevMonth', this.showDate);
             }
             this._fire('dateSelected', this.date);
         }
 
-        this.$.montSelection.value = this.showDate.month;
+        this.$.monthSelection.value = this.showDate.month;
         this.$.yearSelection.value = this.showDate.year;
     }
 
@@ -566,9 +569,9 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
 
         this.chosen = "";
         this._initCalandar(this.showDate.month, this.showDate.year);
-        this.$.montSelection.value = this.showDate.month;
+        this.$.monthSelection.value = this.showDate.month;
         this.$.yearSelection.value = this.showDate.year;
-        this._fire('currMonth');
+        this._fire('currMonth', this.date);
     }
 
     _initCalandar(month, year) {
@@ -875,7 +878,6 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
             this._initCalandar(this.showDate.month, this.showDate.year);
             this._checkChosen();
         }
-
     }
 
     _lightBlueTheme() {
@@ -923,6 +925,32 @@ class mpCalendar extends GestureEventListeners(PolymerElement) {
             '--selected-day-bg': '#af221b',
             '--today-boxshadow-color': '#f33127',
             '--selected-day-hover-bg': 'rgba(255, 13, 0, .5)'
+        });
+    }
+
+    _lighGreyTheme() {
+        this.updateStyles({
+            '--header-bg': '#fff',
+            '--main-header-color': '#424242',
+            '--header-icon-bg': '#424242',
+            '--header-icon-opacity': '',
+            '--inner-date-color': '#2ab327',
+            '--labels-color': '#2ab327',
+            '--labels-bg': '#fff',
+            '--border-width': '0',
+            '--border-top-width': '2px',
+            '--border-right-width': '2px',
+            '--border-color': 'rgba(255, 255, 255, 1)',
+            '--prev-days-color': '#424242',
+            '--curr-days-bg': '#e8e7e7',
+            '--curr-days-color': '#424242',
+            '--prev-next-days-bg': '#fff',
+            '--next-days-color': '#424242',
+            '--disabled-color': 'rgba(255, 255, 255, .3)',
+            '--disabled-text-shadow': '0 0 2px rgba(255, 255, 255, .35)',
+            '--selected-day-bg': '#2ab327',
+            '--selected-day-hover-bg': '#2ab327',
+            '--today-boxshadow-color': '#2ab327'
         });
     }
 }

@@ -2,8 +2,8 @@
 [![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/mpachnismp-calendar) [![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/mpachnismp-calendar.svg)](https://vaadin.com/directory/component/mpachnismp-calendar)
 
 ## &lt;mp-calendar&gt;
-It's a web components, providing calendar date functionality and events support, build with Polymer 3.0. For quick navigation between month and year, you can select one from the list.
-You can get previous version for polymer 1.x or 2.x by chosing different branch.
+mp-calendar is a web component, providing calendar date functionality and events support, build with Polymer 3.0. For quick navigation between month and year, you can select one from the list.
+You can get previous polymer version, 1.x or 2.x, by selecting different branch.
 
 ## Demo
 
@@ -69,8 +69,8 @@ max-year | Number | Set the max year list. | 5
 event-day-color | String | Event border color for a day with more than 3 events. Color can be set as rgb(a), hex or hsl(a) | `#b56ce2`
 
 ## Themes
-There are 2 additional theme to chose, `dark` or `light-blue`.
-![dark](demo/dark-theme.png) ![light blue](demo/light-blue.png)
+There are 3 additional theme to choose, `dark`, `light-blue`, `light-grey`.
+![dark](demo/dark-theme.png) ![light blue](demo/light-blue.png) ![light grey](demo/light-grey.png)
 
 You can also customize the calendar your self with the following properties:
 
@@ -81,6 +81,7 @@ Property | Description
 --main-header-color | Calendar's header color
 --header-icon-bg | Calendar's icons background
 --header-icon-opacity | header's icon opacity on hover event
+--inner-date-color | Current date color inside the calendar icon
 --labels-color | The color of the days
 --border-width | Calendar's border width
 --border-right-width | Calendar's right border (if you set it to 0 then the dates will have top and bottom border)
@@ -99,35 +100,35 @@ Property | Description
 
 
 ### Events
-There are 4 ready to use categories: red, blue, green and orange.
-Each day which have an event will also have a color line at the right side, based on the category.
-If a day have 4 or more events than the display color will get the `event-day-color`.
+
+There are 4 ready to use categories: `red`, `blue`, `green` and `orange`.
+Each day which have an event, will also have a color line at the right side, based on the category.
+If a day have 4 or more events, then the display color will be taken from the property `event-day-color`.
 Date format YYYY-MM-DD. If you change the json file on `events-file` or an event on `events-object`, calendar will automatically show the changes.
 Example:
 
 ```html
 [
     {
-        "title": "Red style category",
+        "title": "Skype",
         "content": "Skype call at 15:40",
         "date": "2017-06-02",
-        "category": "red",
         "color": "#000"
     },
     {
-        "title": "orange style category",
+        "title": "Meeting",
         "content": "Meeting at 14:00",
         "date": "2017-06-05",
         "category": "orange"
     },
     {
-        "title": "Green style category",
+        "title": "Notification",
         "content": "Just a notification",
         "date": "2017-06-10",
         "category": "green"
     },
     {
-        "title": "Blue style category",
+        "title": "Appointment",
         "content": "Doctor's appointment at 20:00",
         "date": "2017-06-18",
         "category": "blue"
@@ -136,14 +137,8 @@ Example:
 ```
 
 ## Icons
-[Designed by Designerz Base](https://www.iconfinder.com/Designerzbase)
 
-
-## Big Thanks
-
-Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs](https://saucelabs.com)
-
-![](http://info.saucelabs.com/rs/468-XBT-687/images/powered_by_sauce_labs_badges_white_1x.png)
+Arrow icons designed by [Designerz Base](https://www.iconfinder.com/Designerzbase)
 
 ## License
 
